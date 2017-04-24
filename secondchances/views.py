@@ -1,5 +1,49 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from rest_framework import viewsets
+from .models import *
+from django.contrib.auth.models import User
+from .serializers import *
 from django.http import HttpResponse
+
+
+class User_ProfileViewSet(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+
+class JobViewSet(viewsets.ModelViewSet):
+    queryset = Job.objects.all()
+    serializer_class = JobSerializer
+
+
+class SkillsViewSet(viewsets.ModelViewSet):
+    queryset = Skills.objects.all()
+    serializer_class = SkillsSerializer
+
+
+class Provided_SkillViewSet(viewsets.ModelViewSet):
+    queryset = Provided_Skill.objects.all()
+    serializer_class = Provided_SkillSerializer
+
+
+class Required_SkillViewSet(viewsets.ModelViewSet):
+    queryset = Required_Skill.objects.all()
+    serializer_class = Required_SkillSerializer
+
+
+class ConnectionViewSet(viewsets.ModelViewSet):
+    queryset = Connection.objects.all()
+    serializer_class = ConnectionSerializer
+
+
+class ConversationViewSet(viewsets.ModelViewSet):
+    queryset = Conversation.objects.all()
+    serializer_class = ConversationSerializer
+
+
+class MessageViewSet(viewsets.ModelViewSet):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
 
 
 def profile(request, user_id):
