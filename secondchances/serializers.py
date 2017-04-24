@@ -2,9 +2,6 @@ from rest_framework import serializers
 from .models import *
 
 
-User_Profile, Job, Skills, Provided_Skill, Required_Skill Connection, Conversation, Message
-
-
 class User_ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User_Profile

@@ -7,8 +7,8 @@ from django.http import HttpResponse
 
 
 class User_ProfileViewSet(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
+    queryset = User_Profile.objects.all()
+    serializer_class = User_ProfileSerializer
 
 
 class JobViewSet(viewsets.ModelViewSet):
