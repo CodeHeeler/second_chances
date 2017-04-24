@@ -11,13 +11,13 @@ class User_Profile(models.Model):
 
 class Job(models.Model):
     owner = models.ForeignKey(User_Profile)
-    title = models.CharField(mox_length=100)
+    title = models.CharField(max_length=100)
     description = models.TextField()
     created = models.DateTimeField(auto_now=True)
 
 
 class Skills(models.Model):
-    skill = models.charField(max_length=30)
+    skill = models.CharField(max_length=30)
 
 
 class Provided_Skill(models.Model):
@@ -31,14 +31,14 @@ class Required_Skill(models.Model):
 
 
 class Connection(models.Model):
-    user_1 = models.ForeignKey(User_Profile)
-    user_2 = models.ForeignKey(User_Profile)
+    user_1 = models.ForeignKey(User_Profile, related_name='Connection_user_1')
+    user_2 = models.ForeignKey(User_Profile, related_name='Connection_user_2')
     created = models.DateTimeField(auto_now=True)
 
 
 class Conversation(models.Model):
-    from_user = models.ForeignKey(User_Profile)
-    to_user = models.ForeignKey(User_Profile)
+    from_user = models.ForeignKey(User_Profile, related_name='Conversation_from_user')
+    to_user = models.ForeignKey(User_Profile, related_name='Conversation_to_user')
     created = models.DateTimeField(auto_now=True)
 
 

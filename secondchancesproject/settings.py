@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['https://arcane-hollows-70832.herokuapp.com/']
 # Application definition
 
 INSTALLED_APPS = [
-    'secondchances.app.SecondchancesConfig',
+    'secondchances.apps.SecondchancesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
