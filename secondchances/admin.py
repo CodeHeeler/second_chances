@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import User_Profile, Job, Skills, Provided_Skill, Required_Skill
-from .models import Connection, Conversation, Message
+from .models import *
 
 admin.site.register(User_Profile)
 admin.site.register(Job)
