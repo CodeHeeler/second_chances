@@ -50,7 +50,7 @@ def profile(request, user_id):
     return HttpResponse('Profile')
 
 
-def login():
+def login(request):
     return HttpResponse('login')
 
 
