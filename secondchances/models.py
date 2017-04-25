@@ -8,6 +8,9 @@ class User_Profile(models.Model):
     created = models.DateTimeField(auto_now=True)
     last_login = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.user.username
+
 
 class Job(models.Model):
     owner = models.ForeignKey(User_Profile)
