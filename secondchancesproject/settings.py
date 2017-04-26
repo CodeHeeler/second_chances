@@ -13,7 +13,9 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 # Update database configuration with $DATABASE_URL.
 
-SECRET_KEY = os.environ['SECRET_KEY']
+# SECRET_KEY = os.environ['SECRET_KEY']
+
+SECRET_KEY =
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -85,8 +87,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'secondchances',
-        'USER': 'rebelmerf',
-        # 'USER': 'mydatabaseuser',
+        # 'USER': 'rebelmerf',
+        'USER': 'emanon805',
         # 'USER': 'mydatabaseuser',
         # 'USER': 'mydatabaseuser',
         'PASSWORD': '',
