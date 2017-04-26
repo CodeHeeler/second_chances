@@ -11,7 +11,7 @@ class User_ProfileSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('password', 'username')
+        fields = ('password', 'e-mail', 'username')
 
 
 class JobSerializer(serializers.ModelSerializer):
