@@ -17,7 +17,7 @@ class JobSerializer(serializers.ModelSerializer):
 class SkillsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Skills
-        fields = ('skill')
+        fields = ('skill',)
 
 
 class Provided_SkillSerializer(serializers.ModelSerializer):
