@@ -16,6 +16,11 @@ class User_ProfileViewSet(viewsets.ModelViewSet):
     serializer_class = User_ProfileSerializer
 
 
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
 class JobViewSet(viewsets.ModelViewSet):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
@@ -100,7 +105,7 @@ def loginx(request):
 
 
 def postings(request):
-    return HttpResponse("postings")
+    return render(request, '/Users/rebelmerf/class/final/second_chances/build/index.html', {})
 
 
 def posting_detail(request, posting_id):

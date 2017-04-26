@@ -8,6 +8,12 @@ class User_ProfileSerializer(serializers.ModelSerializer):
         fields = ('user', 'bio', 'created', 'last_login')
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('password', 'username')
+
+
 class JobSerializer(serializers.ModelSerializer):
     class Meta:
         model = Job

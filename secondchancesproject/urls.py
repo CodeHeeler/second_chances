@@ -21,6 +21,7 @@ from django.contrib.auth import views as auth_views
 
 router = routers.DefaultRouter()
 router.register(r'user_profile', views.User_ProfileViewSet)
+router.register(r'user', views.UserViewSet)
 router.register(r'job', views.JobViewSet)
 router.register(r'skills', views.SkillsViewSet)
 router.register(r'providedskill', views.Provided_SkillViewSet)
