@@ -34,7 +34,7 @@ class Provided_Skill(models.Model):
     skill = models.ForeignKey(Skills)
 
     def __str__(self):
-        return self.skill
+        return self.skill.skill
 
 
 class Required_Skill(models.Model):
@@ -42,7 +42,7 @@ class Required_Skill(models.Model):
     skill = models.ForeignKey(Skills)
 
     def __str__(self):
-        return self.skill
+        return self.skill.skill
 
 
 class Connection(models.Model):
@@ -64,5 +64,3 @@ class Message(models.Model):
 
     def __str__(self):
         return self.text_body[:50]
-
-        
