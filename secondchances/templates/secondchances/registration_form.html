@@ -6,5 +6,10 @@
   </head>
   <body>
     {% block title %}Create a New Account{% endblock %}
+    <form method="post">
+      {% csrf_token %}
+      {% block content %}{{form}}{% endblock %}
+      <button type="submit">Register</button>
+    </form>
   </body>
 </html>

@@ -78,8 +78,9 @@ class UserFormView(View):
 
             if user:
                 if user.is_active:
+                    print("here I am")
                     login(request, user)
-                    return redirect('secondchances:index')  # or redirect to any page
+                    return redirect('/secondchances/profile/' + str(user.id) + '/')  # or redirect to any page
 
         # if not here is a blank form
         return render(request, self.template_name, {'form': form})
@@ -89,7 +90,7 @@ def profile(request, user_id):
     return HttpResponse('Profile')
 
 
-def login(request):
+def loginx(request):
     return HttpResponse('login')
 
 

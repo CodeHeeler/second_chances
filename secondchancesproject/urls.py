@@ -31,10 +31,12 @@ router.register(r'message', views.MessageViewSet)
 
 
 urlpatterns = [
-    url(r'^secondchances/', views.login),
+    url(r'^secondchances/$', views.login),
     url(r'api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^secondchances/profile/(?P<user_id>[0-9]+)', views.profile),
+    # url(r'^login/', auth_views.login, name='login')
+    url(r'^register/$', views.UserFormView.as_view(), name='register'),
+    url(r'^secondchances/profile/(?P<user_id>[0-9]+)', views.profile, name='profile'),
     url(r'^secondchances/postings', views.postings),
     url(r'^secondchances/postings/(?P<user_id>[0-9]+)/search', views.posting_search),
     url(r'^secondchances/postings/(?P<posting_id>[0-9]+)', views.posting_detail),
