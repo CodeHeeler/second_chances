@@ -9,13 +9,14 @@ from django.http import HttpResponse
 from django.views.generic import View  #
 from django.contrib.auth import authenticate, login  #
 from .forms import UserForm  #
+from django.views.decorators.csrf import csrf_exempt
 
 
 class User_ProfileViewSet(viewsets.ModelViewSet):
     queryset = User_Profile.objects.all()
     serializer_class = User_ProfileSerializer
 
-
+@csrf_exempt
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
