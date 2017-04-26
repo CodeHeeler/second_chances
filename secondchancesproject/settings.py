@@ -85,16 +85,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'secondchances',
-        # 'USER': 'rebelmerf',
-        'USER': 'emanon805',
-        # 'USER': 'mydatabaseuser',
-        # 'USER': 'mydatabaseuser',
+        'USER': 'rebelmerf',
         'PASSWORD': '',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
-#
+
 # db_from_env = dj_database_url.config(conn_max_age=500)
 # DATABASES['default'].update(db_from_env)
 
@@ -150,4 +147,5 @@ STATICFILES_DIRS = (
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'] =  dj_database_url.config()

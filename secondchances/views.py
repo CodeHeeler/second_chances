@@ -74,12 +74,15 @@ class UserFormView(View):
             user.save()
 
             #  return user object if credentials are correct
+
             user = authenticate(username=username, password=password)
 
             if user:
                 if user.is_active:
                     print("here I am")
                     login(request, user)
+                    userprofile = User_Profile(user_id=user.id, bio="Your Bio Goes Here")
+                    userprofile.save()
                     return redirect('/secondchances/profile/' + str(user.id) + '/')  # or redirect to any page
 
         # if not here is a blank form
@@ -87,7 +90,9 @@ class UserFormView(View):
 
 
 def profile(request, user_id):
-    return HttpResponse('Profile')
+    userprofile = User_Profile.objects.get(user=request.user)
+    context = {'userprofile': userprofile}
+    return render(request, 'secondchances/profile.html', context)
 
 
 def loginx(request):
