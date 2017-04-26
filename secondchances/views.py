@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 # consider changing to clear up namespace
 from .serializers import *
 from django.http import HttpResponse
-from django.views.generic import Views  #
+from django.views.generic import View  #
 from django.contrib.auth import authenticate, login  #
 from .forms import UserForm  #
 
