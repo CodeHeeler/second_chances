@@ -20,6 +20,19 @@ class App extends Component {
 
   setUser(user) {
     console.log('in setUser', user);
+    axios({
+      method: 'post',
+      url: '',
+      auth: {
+        username: 'admin',
+        password: 'mypassword'
+      },
+      data: user
+    }).then((response) => {
+      console.log(response);
+    }).catch(function(error) {
+      console.log(error);
+    })
     this.setState(user);
     browserHistory.push('/profile');
   }

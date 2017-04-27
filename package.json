@@ -6,6 +6,7 @@
     "django-react-csrftoken": "^1.0.1",
     "react": "^15.5.4",
     "react-burger-menu": "^2.0.0",
+    "react-collapsible": "^1.4.0",
     "react-dom": "^15.5.4"
   },
   "devDependencies": {
