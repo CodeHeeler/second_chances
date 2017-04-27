@@ -115,6 +115,9 @@ def posting_detail(request, posting_id):
     return HttpResponse('posting detail')
 
 
+def index(request):
+    return render(request, 'secondchances/index.html')
+
 def messages(request):
     return HttpResponse('inbox')
 
