@@ -60,6 +60,8 @@ class MessageViewSet(viewsets.ModelViewSet):
 class UserFormView(View):
     form_class = UserForm
     template_name = 'secondchances/registration_form.html'  # html template where registration form is
+    # template_name = 'build/index.html'  # html template where registration form is
+
 
     # display blank form
     def get(self, request):
@@ -100,10 +102,10 @@ def profile(request, user_id):
     context = {'userprofile': userprofile}
     return render(request, 'secondchances/profile.html', context)
 
-
-def loginx(request):
-    return HttpResponse('login')
-
+#
+# def loginx(request):
+#     return HttpResponse('login')
+#
 
 def postings(request):
     return render(request, '/Users/rebelmerf/class/final/second_chances/build/index.html', {})
