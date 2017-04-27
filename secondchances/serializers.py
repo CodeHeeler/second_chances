@@ -5,13 +5,16 @@ from .models import *
 class User_ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User_Profile
-        fields = ('user', 'bio', 'created', 'last_login')
+        fields = ('user', 'id', 'user_id', 'bio', 'created', 'last_login')
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('password', 'email', 'username')
+        fields = ('password', 'id', 'email', 'username')
+
+    def create(self, validated_data):
+        return User.objects.create_user(**validated_data)
 
 
 class JobSerializer(serializers.ModelSerializer):

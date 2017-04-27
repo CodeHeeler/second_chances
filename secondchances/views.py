@@ -10,7 +10,9 @@ from django.views.generic import View  #
 from django.contrib.auth import authenticate, login  #
 from .forms import UserForm  #
 from django.views.decorators.csrf import csrf_exempt
-
+from rest_framework.decorators import list_route
+from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
 
 class User_ProfileViewSet(viewsets.ModelViewSet):
     queryset = User_Profile.objects.all()
@@ -20,6 +22,30 @@ class User_ProfileViewSet(viewsets.ModelViewSet):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return self.queryset.filter(pk=self.request.user.id)
+
+    def create(self, request):
+        response = super(UserViewSet, self).create(request)
+        # login user via session
+        login(request, self.user)
+        return response
+
+    def perform_create(self, serializer):
+        # calls save on the serializer
+        self.user = serializer.save()
+
+    @list_route(methods=['post'])
+    def login(self, request):
+        user = authenticate(username=request.data['username'], password=request.data['password'])
+
+        if user:
+            if user.is_active:
+                login(request, user)
+                return Response({'id': user.id})
+        return Response({}, status=401)
 
 
 class JobViewSet(viewsets.ModelViewSet):
