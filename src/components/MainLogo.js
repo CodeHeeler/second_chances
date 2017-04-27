@@ -10,10 +10,10 @@ const MainLogo = () => {
   };
 
   const logoSvg = {
-    width: "150",
+    width: "150px",
     margin: "0 auto",
     display: "block",
-    padding: "20"
+    padding: "20px"
   };
 
   const logoType = {

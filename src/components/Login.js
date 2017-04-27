@@ -1,7 +1,38 @@
 import React, {Component} from 'react';
+import DjangoCSRFToken from 'django-react-csrftoken'
+
 import MainLogo from './MainLogo';
 
 class Login extends Component {
+
+  constructor() {
+      super();
+      this.makeUser = this.makeUser.bind(this);
+      this.loginUser = this.loginUser.bind(this);
+
+  }
+
+  makeUser(event) {
+    event.preventDefault();
+    console.log('in makeUser', event);
+    const user = {
+      username: this.username.value,
+      email: this.email.value,
+      password: this.password.value,
+    }
+    this.props.postUser(user);
+
+  }
+
+  loginUser(event) {
+    event.preventDefault();
+    console.log('in loginUser', event);
+    const user = {
+      username: this.loginusername.value,
+      password: this.loginpassword.value,
+    }
+    this.props.setUser(user);
+  }
 
   render() {
     const styles = {
@@ -27,8 +58,9 @@ class Login extends Component {
           padding: '5px',
           margin: '5px',
         }
-
       }
+
+
     return (
       <div>
       <MainLogo />
@@ -36,30 +68,26 @@ class Login extends Component {
 
           <div style={styles.loginBox}>
               <h2>Create an Account</h2>
-              <form id='new-user-form' style={styles.inputForm}type='submit'>
+              <form id='new-user-form' style={styles.inputForm} ref={(input) => this.newUserForm = input} onSubmit={(e) => this.makeUser(e)} type='submit'>
                   <div>
-                    <input style={styles.inputBox}type="text" placeholder='enter your full name'/>
-                    <input style={styles.inputBox}type="email" placeholder='enter an email address'/>
-                    <input style={styles.inputBox}type="password" placeholder='create a password'/>
+                    <DjangoCSRFToken/>
+                    <input style={styles.inputBox} ref={(input) => this.username = input} type="text" placeholder='enter your full name'/>
+                    <input style={styles.inputBox} ref={(input) => this.email = input} type="email" placeholder='enter an email address'/>
+                    <input style={styles.inputBox} ref={(input) => this.password = input} type="password" placeholder='create a password'/>
                   </div>
-                  <button type="submit" className="btn-submit">New Account with Email</button>
-                  <button type="submit" className="btn-submit">New Account with Facebook</button>
-                  <button type="submit" className="btn-submit">New Account with Google</button>
-
+                  <button type="submit" className="btn-submit">Create my New Account</button>
               </form>
           </div>
 
           <div style={styles.loginBox}>
               <h2>Welcome Back</h2>
 
-              <form id="login-form" style={styles.inputForm}>
+              <form id="login-form" style={styles.inputForm} ref={(input) => this.loginForm = input} onSubmit={(e) => this.loginUser(e)}>
                   <div>
-                      <input style={styles.inputBox}type="email" placeholder='email address' required/>
-                      <input style={styles.inputBox}type="password" placeholder='Password' required/>
+                      <input style={styles.inputBox} ref={(input) => this.loginusername = input} type="text" placeholder='Username' required/>
+                      <input style={styles.inputBox} ref={(input) => this.loginpassword = input} type="password" placeholder='Password' required/>
                   </div>
-                  <button type="submit" className="btn-submit">Login Email Account</button>
-                  <button type="submit" className="btn-submit">Login Facebook Account</button>
-                  <button type="submit" className="btn-submit">Login Google Account</button>
+                  <button type="submit" className="btn-submit">Login Existing Account</button>
 
               </form>
           </div>
