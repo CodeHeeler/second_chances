@@ -15,11 +15,11 @@ const Root = () => {
     <Router history={browserHistory}>
       <Route path='/' component={App}>
         <IndexRoute component={Login} />
-        <Route path='/login' component={Login} />
-        <Route path='/profile' component={Profile} />
-        <Route path='/find' component={Find} />
-        <Route path='/post' component={Post} />
-        <Route path='/resources' component={Resources} />
+        <Route path='login' component={Login} />
+        <Route path='profile' component={Profile} />
+        <Route path='find' component={Find} />
+        <Route path='post' component={Post} />
+        <Route path='resources' component={Resources} />
       </Route>
 
     </Router>
