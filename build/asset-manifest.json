@@ -1,8 +1,9 @@
 {
-  "main.css": "static/css/main.664ed10a.css",
-  "main.css.map": "static/css/main.664ed10a.css.map",
-  "main.js": "static/js/main.05bb5a66.js",
-  "main.js.map": "static/js/main.05bb5a66.js.map",
-  "static/media/logo.svg": "static/media/logo.359124ab.svg",
-  "static/media/profilepic.png": "static/media/profilepic.6732bd42.png"
+  "main.css": "static/css/main.fdec0b88.css",
+  "main.css.map": "static/css/main.fdec0b88.css.map",
+  "main.js": "static/js/main.8414d391.js",
+  "main.js.map": "static/js/main.8414d391.js.map",
+  "static/media/profilepic.png": "static/media/profilepic.6732bd42.png",
+  "static/media/reEntrylogo.png": "static/media/reEntrylogo.0e50a9db.png",
+  "static/media/reEntrylogo_h.png": "static/media/reEntrylogo_h.94bc2812.png"
 }

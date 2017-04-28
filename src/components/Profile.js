@@ -10,16 +10,10 @@ class Profile extends Component {
 
         const styles = {
             headerBar: {
-                height: '5vh',
-                backgroundColor: '#ddd',
+                backgroundColor: '#fff',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-around',
-                color: '#000'
-            },
-            mainName: {
-                textTransform: 'uppercase',
-                fontSize: '1.2rem'
             },
             envelope: {
                 width: '30px'
@@ -53,11 +47,11 @@ class Profile extends Component {
                 margin: '2px'
             },
             opportunities: {
-              textAlign: 'left'
+                textAlign: 'left'
             },
             opportunity: {
-              borderBottom: '1px solid #ccc',
-              padding: '5px'
+                borderBottom: '1px solid #ccc',
+                padding: '5px'
             }
         }
         let username = this.props.username;
@@ -67,14 +61,14 @@ class Profile extends Component {
                 <Header/>
                 <h1 style={styles.profileHeading}>Welcome {username}</h1>
                 <div style={styles.headerBar}>
-                    <h1 style={styles.mainName}></h1>
                     <img style={styles.envelope} src={envelope} alt='messages'/>
                 </div>
                 <div style={styles.profileBody}>
                     <img style={styles.profilePic} src={profilepic} alt="profile"/>
                     <p style={styles.profileStory}>Affogato tacos unicorn direct trade. Cred bicycle rights shabby chic four loko godard narwhal. Af enamel pin vegan disrupt. Hot chicken iceland drinking vinegar PBR&B godard umami, seitan freegan tbh selfies paleo woke pug occupy tote bag.</p>
-                    <h1 style={styles.profileHeading}>{username}&#39;s Skills</h1>
-                    <ul style={styles.skillsContainer}>
+
+                      <h1 style={styles.profileHeading}>{username}&#39;s Skills</h1>
+                      <ul style={styles.skillsContainer}>
                         <li style={styles.skill}>Painting</li>
                         <li style={styles.skill}>Drawing</li>
                         <li style={styles.skill}>Needlepoint</li>
@@ -82,21 +76,24 @@ class Profile extends Component {
                         <li style={styles.skill}>Dancing</li>
                         <li style={styles.skill}>emcee</li>
                         <li style={styles.skill}>Popping Bottles</li>
-                    </ul>
-                    <h1 style={styles.profileHeading}>{username}&#39;s Opportunities</h1>
-                    <ol style={styles.opportunities}>
-                      <li style={styles.opportunity}>This is an opportunity.</li>
-                      <li style={styles.opportunity}>This is an opportunity.</li>
-                      <li style={styles.opportunity}>This is an opportunity.</li>
-                      <li style={styles.opportunity}>This is an opportunity.</li>
-                      <li style={styles.opportunity}>This is an opportunity.</li>
-                      <li style={styles.opportunity}>This is an opportunity.</li>
-                    </ol>
+                      </ul>
+
+
+                      <h1 style={styles.profileHeading}>{username}&#39;s Opportunities</h1>
+                      <ol style={styles.opportunities}>
+                        <li style={styles.opportunity}>This is an opportunity.</li>
+                        <li style={styles.opportunity}>This is an opportunity.</li>
+                        <li style={styles.opportunity}>This is an opportunity.</li>
+                        <li style={styles.opportunity}>This is an opportunity.</li>
+                        <li style={styles.opportunity}>This is an opportunity.</li>
+                        <li style={styles.opportunity}>This is an opportunity.</li>
+                      </ol>
+
+                  </div>
+
                 </div>
+              );
+            }
+          }
 
-            </div>
-        );
-    }
-}
-
-export default Profile;
+          export default Profile;
