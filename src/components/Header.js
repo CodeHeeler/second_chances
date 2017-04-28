@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Nav from './Nav'
-import logo from '../images/logo.svg'
+import logo from '../images/reEntrylogo_h.png'
 
 class Header extends Component {
 
@@ -8,25 +8,18 @@ class Header extends Component {
 
       const styles = {
         headerBar: {
-          height: '15vh',
-          backgroundColor: '#ccc',
-          display: 'flex',
-          alignItems: 'center'
-        },
-        mainTitle: {
-          textTransform: 'uppercase',
-          fontSize: '1.5rem'
+          backgroundColor: '#c1dceb'
         },
         smallLogo: {
-          width: '50px',
-          margin: '10px'
+          width: '50%',
+          paddingTop: '10px'
+
         }
       }
 
         return (
             <div style={styles.headerBar}>
                 <img style={styles.smallLogo} src={logo} alt='second chances'/>
-                <h1 style={styles.mainTitle}>second chances</h1>
                 <Nav />
             </div>
         );

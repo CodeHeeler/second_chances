@@ -6,13 +6,12 @@
     "django-react-csrftoken": "^1.0.1",
     "react": "^15.5.4",
     "react-burger-menu": "^2.0.0",
-    "react-collapsible": "^1.4.0",
     "react-dom": "^15.5.4"
   },
   "devDependencies": {
     "axios": "^0.15.3",
-    "react-scripts": "0.9.5",
-    "react-router": "^3.0.2"
+    "react-router": "^3.0.2",
+    "react-scripts": "0.9.5"
   },
   "scripts": {
     "start": "react-scripts start",

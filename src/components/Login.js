@@ -1,97 +1,43 @@
 import React, {Component} from 'react';
-import DjangoCSRFToken from 'django-react-csrftoken'
-
-import MainLogo from './MainLogo';
+import logo from '../images/reEntrylogo.png';
+import LoginForm from './LoginForm';
 
 class Login extends Component {
 
-  constructor() {
-      super();
-      this.makeUser = this.makeUser.bind(this);
-      this.loginUser = this.loginUser.bind(this);
-
-  }
-
-  makeUser(event) {
-    event.preventDefault();
-    console.log('in makeUser', event);
-    const user = {
-      username: this.username.value,
-      email: this.email.value,
-      password: this.password.value,
-    }
-    this.props.postUser(user);
-
-  }
-
-  loginUser(event) {
-    event.preventDefault();
-    console.log('in loginUser', event);
-    const user = {
-      username: this.loginusername.value,
-      password: this.loginpassword.value,
-    }
-    this.props.setUser(user);
-  }
-
   render() {
     const styles = {
+        headerContainer: {
+          backgroundColor: '#D9EAF5'
+        },
         loginContainer: {
             textAlign: 'center',
-            display: 'flex',
-            justifyContent: 'space-around'
+            backgroundColor: '#ccc',
+            margin: '20px auto',
+            padding: '20px'
         },
-        loginBox: {
-          border: '1px solid #000',
-          width: '45%',
-          padding: '5px',
-          margin: '10px 0',
+        logoImg: {
+          maxWidth: '300px',
+          padding: '30px',
         },
-        inputForm: {
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between'
-        },
-        inputBox: {
-          textAlign: 'center',
-          border: '1px solid #ccc',
-          padding: '5px',
-          margin: '5px',
+        tagline: {
+          backgroundColor: '#083c5d',
+          color: '#d9b310',
+          fontSize: '2rem',
+          paddingTop: '20px',
+          fontStyle: 'italic'
         }
       }
 
-
     return (
       <div>
-      <MainLogo />
-      <div style={styles.loginContainer}>
+        <header style={styles.headerContainer}>
+          <img style={styles.logoImg} src={logo} alt='reEntry' />
+          <h1 style={styles.tagline}>Resources for ex-cons</h1>
+        </header>
+        <div style={styles.loginContainer}>
+          <LoginForm setUser={this.props.setUser} />
+        </div>
 
-          <div style={styles.loginBox}>
-              <h2>Create an Account</h2>
-              <form id='new-user-form' style={styles.inputForm} ref={(input) => this.newUserForm = input} onSubmit={(e) => this.makeUser(e)} type='submit'>
-                  <div>
-                    <DjangoCSRFToken/>
-                    <input style={styles.inputBox} ref={(input) => this.username = input} type="text" placeholder='enter your full name'/>
-                    <input style={styles.inputBox} ref={(input) => this.email = input} type="email" placeholder='enter an email address'/>
-                    <input style={styles.inputBox} ref={(input) => this.password = input} type="password" placeholder='create a password'/>
-                  </div>
-                  <button type="submit" className="btn-submit">Create my New Account</button>
-              </form>
-          </div>
-
-          <div style={styles.loginBox}>
-              <h2>Welcome Back</h2>
-
-              <form id="login-form" style={styles.inputForm} ref={(input) => this.loginForm = input} onSubmit={(e) => this.loginUser(e)}>
-                  <div>
-                      <input style={styles.inputBox} ref={(input) => this.loginusername = input} type="text" placeholder='Username' required/>
-                      <input style={styles.inputBox} ref={(input) => this.loginpassword = input} type="password" placeholder='Password' required/>
-                  </div>
-                  <button type="submit" className="btn-submit">Login Existing Account</button>
-
-              </form>
-          </div>
-      </div>
       </div>
     );
   }
