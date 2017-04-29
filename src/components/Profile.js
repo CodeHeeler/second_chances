@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import Header from './Header'
+import ProfileData from './ProfileData'
 
-import envelope from '../images/envelope.png';
-import profilepic from '../images/profilepic.png';
 
 class Profile extends Component {
 
@@ -15,24 +14,15 @@ class Profile extends Component {
                 alignItems: 'center',
                 justifyContent: 'space-around',
             },
-            envelope: {
-                width: '30px'
+
+            profileBody: {
+              backgroundColor: '#ccc'
             },
-            profileBody: {},
             profileHeading: {
                 fontSize: '1.5rem',
                 color: '#fff',
                 backgroundColor: '#000',
                 clear: 'both'
-            },
-            profilePic: {
-                width: '45%',
-                float: 'left',
-                marginRight: '5px'
-            },
-            profileStory: {
-                textAlign: 'left',
-                padding: '5px'
             },
             skillsContainer: {
                 display: 'flex',
@@ -59,13 +49,9 @@ class Profile extends Component {
         return (
             <div>
                 <Header/>
-                <h1 style={styles.profileHeading}>Welcome {username}</h1>
-                <div style={styles.headerBar}>
-                    <img style={styles.envelope} src={envelope} alt='messages'/>
-                </div>
                 <div style={styles.profileBody}>
-                    <img style={styles.profilePic} src={profilepic} alt="profile"/>
-                    <p style={styles.profileStory}>Affogato tacos unicorn direct trade. Cred bicycle rights shabby chic four loko godard narwhal. Af enamel pin vegan disrupt. Hot chicken iceland drinking vinegar PBR&B godard umami, seitan freegan tbh selfies paleo woke pug occupy tote bag.</p>
+
+                  <ProfileData />
 
                       <h1 style={styles.profileHeading}>{username}&#39;s Skills</h1>
                       <ul style={styles.skillsContainer}>
