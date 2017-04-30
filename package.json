@@ -5,6 +5,7 @@
   "dependencies": {
     "django-react-csrftoken": "^1.0.1",
     "react": "^15.5.4",
+    "react-autosize-textarea": "^0.4.3",
     "react-burger-menu": "^2.0.0",
     "react-dom": "^15.5.4"
   },
