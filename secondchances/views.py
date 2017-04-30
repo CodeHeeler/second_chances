@@ -31,6 +31,8 @@ class UserViewSet(viewsets.ModelViewSet):
         response = super(UserViewSet, self).create(request)
         # login user via session
         login(request, self.user)
+        user_profile = User_Profile(user=self.user)
+        user_profile.save()
         return response
 
     def perform_create(self, serializer):
