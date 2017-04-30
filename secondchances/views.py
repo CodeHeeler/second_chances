@@ -17,6 +17,7 @@ from rest_framework.permissions import AllowAny
 class User_ProfileViewSet(viewsets.ModelViewSet):
     queryset = User_Profile.objects.all()
     serializer_class = User_ProfileSerializer
+    permission_classes = [AllowAny]
 
 
 class UserViewSet(viewsets.ModelViewSet):
