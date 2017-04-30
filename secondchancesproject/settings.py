@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     # 'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
+    'SAFE_METHODS': ('GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'),
     'PAGE_SIZE': 10
 }
 
