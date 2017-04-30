@@ -3,7 +3,10 @@ from django.contrib.auth.models import User
 
 
 class User_Profile(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, pk=True)
+    firstname = models.CharField(max_length=30, blank=True)
+    lastname = models.CharField(max_length=30, blank=True)
+    emailaddress = models.CharField(max_length=50, blank=True)
     bio = models.TextField(blank=True)
     created = models.DateTimeField(auto_now=True)
     last_login = models.DateTimeField(auto_now_add=True)

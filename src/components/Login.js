@@ -32,7 +32,7 @@ class Login extends Component {
       <div>
         <header style={styles.headerContainer}>
           <img style={styles.logoImg} src={logo} alt='reEntry' />
-          <h1 style={styles.tagline}>Resources for ex-cons</h1>
+          <h1 style={styles.tagline}>Resources for formerly incarcerated people</h1>
         </header>
         <div style={styles.loginContainer}>
           <LoginForm setUser={this.props.setUser} />
