@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class User_Profile(models.Model):
-    user = models.IntegerField(primary_key=True)
+    user = models.OneToOneField(User, primary_key=True)
     firstname = models.CharField(max_length=30, blank=True, null=True)
     lastname = models.CharField(max_length=30, blank=True, null=True)
     emailaddress = models.CharField(max_length=50, blank=True, null=True)
