@@ -21,9 +21,9 @@ class User_ProfileViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
 
     def update(self, request, pk):
-        profile = User_Profile.objects.get(user_id=pk)
-        print(request)
-        sys.stdout.flush()
+        profile = User_Profile.objects.get(user_id=20)
+        profile.firstname="anything"
+        return response
 
     def perform_update(self, request):
         pass
