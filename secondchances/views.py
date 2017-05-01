@@ -35,7 +35,8 @@ class UserViewSet(viewsets.ModelViewSet):
         # user_profile = User_Profile(user=self.user.id)
         user_profile = User_Profile(user=self.request.user)
         user_profile.save()
-        return Response({'id': self.request.user.id})
+        # return Response({'id': self.request.user.id})
+        return response
 
     def perform_create(self, serializer):
         # calls save on the serializer
