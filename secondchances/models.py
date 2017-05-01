@@ -37,7 +37,7 @@ class Provided_Skill(models.Model):
     skill = models.ForeignKey(Skills)
 
     def __str__(self):
-        return self.skill.skill + " " + self.owner.username
+        return self.skill.skill
 
     class Meta:
         unique_together = ('owner', 'skill')
@@ -48,7 +48,7 @@ class Required_Skill(models.Model):
     skill = models.ForeignKey(Skills)
 
     def __str__(self):
-        return self.skill.skill + " " + self.owner.username
+        return self.skill.skill
 
     class Meta:
         unique_together = ('owner', 'skill')
