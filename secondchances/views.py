@@ -41,7 +41,7 @@ class UserViewSet(viewsets.ModelViewSet):
         # login user via session
         login(request, self.user)
         # user_profile = User_Profile(user=self.user.id)
-        user_profile = User_Profile(user=self.request.user)
+        user_profile = User_Profile(user=self.request.user.id)
         user_profile.save()
         # return Response({'id': self.request.user.id})
         return response
