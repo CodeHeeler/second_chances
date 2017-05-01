@@ -21,6 +21,7 @@ from django.contrib.auth import views as auth_views
 
 router = routers.DefaultRouter()
 router.register(r'user_profile', views.User_ProfileViewSet)
+router.register(r'user', views.UserViewSet)
 router.register(r'job', views.JobViewSet)
 router.register(r'skills', views.SkillsViewSet)
 router.register(r'providedskill', views.Provided_SkillViewSet)
@@ -31,10 +32,14 @@ router.register(r'message', views.MessageViewSet)
 
 
 urlpatterns = [
-    url(r'^secondchances/', views.login),
+    url(r'^secondchances/$', views.login),
+    url(r'^$', views.index, name='index'),
     url(r'api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^secondchances/profile/(?P<user_id>[0-9]+)', views.profile),
+    # url(r'^login/', auth_views.login, name='login'),
+    # url(r'^logout/', auth_views.logout, name='logout'),
+    url(r'^register/$', views.UserFormView.as_view(), name='register'),
+    url(r'^secondchances/profile/(?P<user_id>[0-9]+)', views.profile, name='profile'),
     url(r'^secondchances/postings', views.postings),
     url(r'^secondchances/postings/(?P<user_id>[0-9]+)/search', views.posting_search),
     url(r'^secondchances/postings/(?P<posting_id>[0-9]+)', views.posting_detail),

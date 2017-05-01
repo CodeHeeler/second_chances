@@ -18,19 +18,23 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
+CSRF_COOKIE_NAME = 'XCSRF-TOKEN'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['arcane-hollows-70832.herokuapp.com']
+ALLOWED_HOSTS = ['arcane-hollows-70832.herokuapp.com',
+                '127.0.0.1']
 
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'rest_framework',
     'secondchances.apps.SecondchancesConfig',
     'django.contrib.admin',
@@ -42,11 +46,14 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    # 'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
+    'SAFE_METHODS': ('GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'),
     'PAGE_SIZE': 10
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -85,15 +92,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'secondchances',
         'USER': 'rebelmerf',
-        # 'USER': 'mydatabaseuser',
-        # 'USER': 'mydatabaseuser',
-        # 'USER': 'mydatabaseuser',
         'PASSWORD': '',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
-#
+
 # db_from_env = dj_database_url.config(conn_max_age=500)
 # DATABASES['default'].update(db_from_env)
 
@@ -149,4 +153,5 @@ STATICFILES_DIRS = (
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'] =  dj_database_url.config()
