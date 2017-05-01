@@ -32,7 +32,7 @@ class Profile extends Component {
 
     axios({
       method: 'PUT',
-      url: `http://arcane-hollows-70832.herokuapp.com/api/user_profile/${this.props.userid}/`,
+      url: `${this.props.baseurl}/api/user_profile/${this.props.userid}/`,
       // auth: {
       //   username: 'admin',
       //   password: 'mypasword'
