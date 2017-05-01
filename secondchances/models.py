@@ -26,7 +26,7 @@ class Job(models.Model):
 
 
 class Skills(models.Model):
-    skill = models.CharField(max_length=30)
+    skill = models.CharField(max_length=30, unique=True)
 
     def __str__(self):
         return self.skill
