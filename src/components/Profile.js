@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import Header from './Header';
 import ProfileData from './ProfileData';
 import ProfileForm from './ProfileForm';
+import SkillsForm from './SkillsForm';
+import SkillsData from './SkillsData';
 import HeaderBar from './HeaderBar';
 
 import axios from 'axios';
@@ -11,6 +13,8 @@ class Profile extends Component {
   constructor() {
     super();
     this.getProfile = this.getProfile.bind(this);
+    // this.getUserSkills = this.getUserSkills.bind(this);
+    this.getSkills = this.getSkills.bind(this);
     this.state = {
       // profile: {
       //   firstname: 'Vallyre',
@@ -23,12 +27,15 @@ class Profile extends Component {
         lastname: null,
         email: null,
         bio: null
-      }
+      },
+      skills: null
     }
   }
 
   componentDidMount() {
     this.getProfile();
+    // this.getUserSkills();
+    this.getSkills();
   }
 
   getProfile() {
@@ -36,11 +43,11 @@ class Profile extends Component {
     let stuff = {
         method: 'get',
         url: `${this.props.baseurl}/api/user_profile/${this.props.userid}/`,
+        // url: `${this.props.baseurl}/api/user_profile/1/`,
     };
 
     axios(stuff).then((response) => {
         let profile = {profile: response.data};
-        console.log(profile);
         this.setState(profile);
         this.showProfileForm();
     }).catch(function(error) {
@@ -48,8 +55,32 @@ class Profile extends Component {
     });
   }
 
-
-
+  getSkills() {
+    console.log('in getSkills');
+    let stuff = {
+        method: 'get',
+        // url: `${this.props.baseurl}/api/providedskill/1`,
+        url: `${this.props.baseurl}/api/providedskill/${this.props.userid}`,
+        // url: `${this.props.baseurl}/api/skills`,
+    };
+    axios(stuff).then((response) => {
+      console.log('skill response: ',response);
+      let skillsObj = response.data.results;
+      let skillsArr = [];
+      let skills = {};
+      for (let i in skillsObj) {
+        if (skillsObj.hasOwnProperty(i)){
+          skillsArr.push(skillsObj[i].skill_string);
+          console.log('skillsArr ', skillsArr);
+          skills = {skills: skillsArr};
+        };
+      };
+        this.setState(skills);
+        this.showSkillsForm();
+    }).catch(function(error) {
+        console.log(error);
+    });
+  }
 
   showProfileForm() {
     if (this.state.profile.firstname !== null) {
@@ -64,8 +95,16 @@ class Profile extends Component {
     }
   }
 
-  getSkills() {
-    console.log('in getSkills');
+  showSkillsForm() {
+    if (this.state.skills !== null) {
+      return (
+        <SkillsData baseurl={this.props.baseurl} userid={this.props.userid} skills={this.state.skills} />
+      )
+    } else {
+      return (
+        <SkillsForm baseurl={this.props.baseurl} userid={this.props.userid} />
+      )
+    }
   }
 
     render() {
@@ -94,30 +133,28 @@ class Profile extends Component {
             opportunity: {
                 borderBottom: '1px solid #ccc',
                 padding: '5px'
-            }
+            },
         }
+
 
         return (
             <div>
                 <Header/>
                 <div style={styles.profileBody}>
+
                     <div>
-                        <HeaderBar innerText='Profile Info' />
-                        <div>
-                          {this.showProfileForm()}
-                        </div>
+                      <HeaderBar innerText='Profile Info' />
+                      <div>
+                        {this.showProfileForm()}
+                      </div>
                     </div>
 
-                    <HeaderBar innerText='Skills' />
-                    <ul style={styles.skillsContainer}>
-                        <li style={styles.skill}>Painting</li>
-                        <li style={styles.skill}>Drawing</li>
-                        <li style={styles.skill}>Needlepoint</li>
-                        <li style={styles.skill}>Singing</li>
-                        <li style={styles.skill}>Dancing</li>
-                        <li style={styles.skill}>emcee</li>
-                        <li style={styles.skill}>Popping Bottles</li>
-                    </ul>
+                    <div>
+                      <HeaderBar innerText='Skills' />
+                      <ul style={styles.skillsContainer}>
+                        {this.showSkillsForm()}
+                      </ul>
+                    </div>
 
                     <HeaderBar innerText='Opportunities' />
                     <ol style={styles.opportunities}>

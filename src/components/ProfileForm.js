@@ -21,7 +21,6 @@ class ProfileForm extends Component {
             emailaddress: this.email.value,
             bio: this.bio.value,
           };
-        console.log(profile);
         this.setProfile(profile);
     }
 
@@ -34,8 +33,6 @@ class ProfileForm extends Component {
         data: profile
       }).then((response) => {
         console.log('success!', response);
-        let currProfile = response.data;
-        console.log('current profile', currProfile);
         this.props.getProfile();
       }).catch(function(error) {
         console.log(error);
