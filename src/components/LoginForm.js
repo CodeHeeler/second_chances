@@ -18,9 +18,9 @@ class LoginForm extends Component {
     }
     let url = '';
     if (type==='login') {
-      url='http://arcane-hollows-70832.herokuapp.com/api/user/login/';
+      url=`${this.props.baseurl}/api/user/login/`;
   } else if (type==='create') {
-      url='http://arcane-hollows-70832.herokuapp.com/api/user/';
+      url=`${this.props.baseurl}/api/user/`;
   } else {
     event.preventDefault();
     return;

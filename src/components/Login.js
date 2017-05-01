@@ -34,7 +34,7 @@ class Login extends Component {
           <h1 style={styles.tagline}>Resources for formerly incarcerated people</h1>
         </header>
         <div style={styles.loginContainer}>
-          <LoginForm setUser={this.props.setUser} />
+          <LoginForm setUser={this.props.setUser} baseurl={this.props.baseurl} />
         </div>
 
       </div>
