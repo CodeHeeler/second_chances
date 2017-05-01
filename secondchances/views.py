@@ -20,13 +20,13 @@ class User_ProfileViewSet(viewsets.ModelViewSet):
     serializer_class = User_ProfileSerializer
     permission_classes = [AllowAny]
 
-    def update(self, request, pk):
-        profile = User_Profile.objects.get(user_id=20)
-        profile.firstname="anything"
-        return response
-
-    def perform_update(self, request):
-        pass
+    # def update(self, request, pk):
+    #     profile = User_Profile.objects.get(user_id=20)
+    #     profile.firstname="anything"
+    #     return response
+    #
+    # def perform_update(self, request):
+    #     pass
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
