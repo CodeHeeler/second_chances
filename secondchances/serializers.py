@@ -7,6 +7,12 @@ class User_ProfileSerializer(serializers.ModelSerializer):
         model = User_Profile
         fields = ('user', 'firstname', 'lastname', 'emailaddress', 'bio', 'created', 'last_login')
 
+    # def create(self, validated_data):
+    #     # return User_Profile.objects.create_user(**validated_data)
+    #     new = User_Profile(**validated_data)
+    #     new.save()
+    #     return new
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
