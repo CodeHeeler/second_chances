@@ -1,6 +1,6 @@
 .profile-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align: center;
   margin: 10px;
   background-color: #fff;
@@ -34,6 +34,8 @@
   border-radius: 50%;
   padding: 10px;
   margin: 20px;
+  min-width: 80px;
+  min-height: 80px;
 }
 
 .initials {
