@@ -3,7 +3,7 @@ from .models import *
 
 
 class User_ProfileSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(many=False, read_only=False)
+    # user = serializers.PrimaryKeyRelatedField(many=False, read_only=False)
     class Meta:
         model = User_Profile
         fields = ('user', 'firstname', 'lastname', 'emailaddress', 'bio', 'created', 'last_login')
