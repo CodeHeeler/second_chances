@@ -76,6 +76,18 @@ class Provided_SkillViewSet(viewsets.ModelViewSet):
     # queryset = Provided_Skill.objects.filter(owner=user_id)
     serializer_class = Provided_SkillSerializer
 
+    def get_queryset(self):
+        user_id = self.kwargs['user_id']
+        return Provided_Skill.objects.filter(owner=user_id)
+
+
+# class Provided_SkillList(viewsets.ModelViewSet):
+#     serializer_class = Provided_SkillSerializer
+
+    # def get_queryset(self):
+    #     user_id = self.kwargs['user_id']
+    #     return Provided_Skill.objects.filter(owner=user_id)
+
 
 class Required_SkillViewSet(viewsets.ModelViewSet):
     queryset = Required_Skill.objects.all()
