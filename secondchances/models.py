@@ -3,10 +3,16 @@ from django.contrib.auth.models import User
 
 
 class User_Profile(models.Model):
-    user = models.ForeignKey(User)
-    bio = models.TextField(blank=True)
+    user = models.OneToOneField(User, primary_key=True)
+    firstname = models.CharField(max_length=30, blank=True, null=True)
+    lastname = models.CharField(max_length=30, blank=True, null=True)
+    emailaddress = models.CharField(max_length=50, blank=True, null=True)
+    bio = models.TextField(blank=True, null=True)
     created = models.DateTimeField(auto_now=True)
     last_login = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username
 
 
 class Job(models.Model):
@@ -15,19 +21,31 @@ class Job(models.Model):
     description = models.TextField()
     created = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.title
+
 
 class Skills(models.Model):
     skill = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.skill
 
 
 class Provided_Skill(models.Model):
     owner = models.ForeignKey(User_Profile)
     skill = models.ForeignKey(Skills)
 
+    def __str__(self):
+        return self.skill.skill
+
 
 class Required_Skill(models.Model):
     owner = models.ForeignKey(Job)
     skill = models.ForeignKey(Skills)
+
+    def __str__(self):
+        return self.skill.skill
 
 
 class Connection(models.Model):
@@ -46,3 +64,6 @@ class Message(models.Model):
     conversation = models.ForeignKey(Conversation)
     text_body = models.TextField()
     created = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.text_body[:50]
