@@ -73,7 +73,7 @@ class SkillsViewSet(viewsets.ModelViewSet):
 
 class Provided_SkillViewSet(viewsets.ModelViewSet):
     # queryset = Provided_Skill.objects.all()
-    queryset = Provided_Skill.objects.filter(owner=kwargs['user_id'])
+    queryset = Provided_Skill.objects.filter(owner=user_id)
     serializer_class = Provided_SkillSerializer
 
 
