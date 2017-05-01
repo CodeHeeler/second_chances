@@ -13,12 +13,20 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
+from os import sys
 
 class User_ProfileViewSet(viewsets.ModelViewSet):
     queryset = User_Profile.objects.all()
     serializer_class = User_ProfileSerializer
     permission_classes = [AllowAny]
 
+    def update(self, request):
+        profile = User_Profile.objects.get(id=request.user.id)
+        print(request)
+        sys.stdout.flush() 
+
+    def perform_update(self, request):
+        pass
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
