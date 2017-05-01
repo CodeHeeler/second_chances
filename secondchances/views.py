@@ -26,7 +26,7 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        return self.queryset.filter(pk=self.request.user.id)
+        return self.queryset.all()
 
     def create(self, request):
         response = super(UserViewSet, self).create(request)
