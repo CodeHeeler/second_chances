@@ -13,7 +13,8 @@ class App extends Component {
       this.setUser = this.setUser.bind(this);
       this.state = {
           username: '',
-          userid: null
+          userid: null,
+          baseurl: 'http://arcane-hollows-70832.herokuapp.com'
       };
   }
 
@@ -58,7 +59,8 @@ class App extends Component {
           setUser: this.setUser,
           username: this.state.username,
           userid: this.state.userid,
-          email: this.state.email
+          email: this.state.email,
+          baseurl: this.state.baseurl
         });
       });
         return (
