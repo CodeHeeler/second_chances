@@ -37,6 +37,7 @@ class Profile extends Component {
       //   username: 'admin',
       //   password: 'mypasword'
       // },
+      withCredentials: true,
       data: profile
     }).then((response) => {
       console.log('success!', response);
@@ -56,6 +57,10 @@ class Profile extends Component {
         <ProfileForm setProfile={this.setProfile} userid={this.props.userid} />
       )
     }
+  }
+
+  getSkills() {
+    console.log('in getSkills');
   }
 
     render() {
