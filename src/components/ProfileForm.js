@@ -18,7 +18,7 @@ class ProfileForm extends Component {
             lastname: this.lastname.value,
             emailaddress: this.email.value,
             bio: this.bio.value,
-            user: this.props.userid
+            user: {id: this.props.userid}
           };
         console.log(profile);
         this.props.setProfile(profile);
