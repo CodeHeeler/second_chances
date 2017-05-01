@@ -24,7 +24,7 @@ class ProfileData extends Component {
                 </div>
                 <div className='profile-data'>
                         <p className='profile-username'>{this.props.currProfile.firstname} {this.props.currProfile.lastname}</p>
-                        <p className='profile-email'>{this.props.currProfile.email}</p>
+                        <p className='profile-email'>{this.props.currProfile.emailaddress}</p>
                         <p className='profile-bio'>{this.props.currProfile.bio}</p>
                 </div>
               </div>

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import BtnSubmit from './BtnSubmit';
-import DjangoCSRFToken from 'django-react-csrftoken'
+
+import axios from 'axios';
 
 
 class ProfileForm extends Component {
@@ -8,6 +9,7 @@ class ProfileForm extends Component {
     constructor() {
         super();
         this.createProfile = this.createProfile.bind(this);
+        this.setProfile = this.setProfile.bind(this);
     }
 
     createProfile(event) {
@@ -20,7 +22,24 @@ class ProfileForm extends Component {
             bio: this.bio.value,
           };
         console.log(profile);
-        this.props.setProfile(profile);
+        this.setProfile(profile);
+    }
+
+    setProfile(profile) {
+      console.log('in setProfile');
+
+      axios({
+        method: 'PATCH',
+        url: `${this.props.baseurl}/api/user_profile/${this.props.userid}/`,
+        data: profile
+      }).then((response) => {
+        console.log('success!', response);
+        let currProfile = response.data;
+        console.log('current profile', currProfile);
+        this.props.getProfile();
+      }).catch(function(error) {
+        console.log(error);
+      });
     }
 
     render() {
@@ -52,7 +71,6 @@ class ProfileForm extends Component {
 
         return (
             <form id='profile-form' style={styles.profileForm}>
-                <DjangoCSRFToken/>
                 <p>Tell us a little about yourself</p>
                 <div>
                     <input style={styles.inputBox} ref={(input) => this.firstname = input} type="text" placeholder='first name' required/>

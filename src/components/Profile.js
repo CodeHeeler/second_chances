@@ -10,7 +10,7 @@ class Profile extends Component {
 
   constructor() {
     super();
-    this.setProfile = this.setProfile.bind(this);
+    this.getProfile = this.getProfile.bind(this);
     this.state = {
       // profile: {
       //   firstname: 'Vallyre',
@@ -27,25 +27,29 @@ class Profile extends Component {
     }
   }
 
-  setProfile(profile) {
-    console.log('in setProfile');
+  componentDidMount() {
+    this.getProfile();
+  }
 
-    axios({
-      method: 'PUT',
-      url: `${this.props.baseurl}/api/user_profile/${this.props.userid}/`,
-      // auth: {
-      //   username: 'admin',
-      //   password: 'mypasword'
-      // },
-      withCredentials: true,
-      data: profile
-    }).then((response) => {
-      console.log('success!', response);
-      this.setState(profile);
+  getProfile() {
+    console.log('in getProfile');
+    let stuff = {
+        method: 'get',
+        url: `${this.props.baseurl}/api/user_profile/${this.props.userid}/`,
+    };
+
+    axios(stuff).then((response) => {
+        let profile = {profile: response.data};
+        console.log(profile);
+        this.setState(profile);
+        this.showProfileForm();
     }).catch(function(error) {
-      console.log(error);
+        console.log(error);
     });
   }
+
+
+
 
   showProfileForm() {
     if (this.state.profile.firstname !== null) {
@@ -54,7 +58,8 @@ class Profile extends Component {
       )
     } else {
       return (
-        <ProfileForm setProfile={this.setProfile} userid={this.props.userid} />
+
+        <ProfileForm getProfile={this.getProfile} baseurl={this.props.baseurl} userid={this.props.userid} />
       )
     }
   }
@@ -77,10 +82,11 @@ class Profile extends Component {
                 padding: '20px 0'
             },
             skill: {
-                backgroundColor: '#328cc1',
+                backgroundColor: '#083c5d',
                 borderRadius: '10px',
                 padding: '5px 10px',
-                margin: '2px'
+                margin: '2px',
+                color: '#fff'
             },
             opportunities: {
                 textAlign: 'left'
