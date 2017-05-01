@@ -1,45 +1,34 @@
 import React, {Component} from 'react';
-import envelope from '../images/envelope.png';
-
+import '../stylesheets/profile.css';
 
 class ProfileData extends Component {
 
-makeInitials(first, last) {
-    let firstArr = (first).toLowerCase().split('');
-    let firstInitial = firstArr[0];
-    let secondArr = (last).toLowerCase().split('');
-    let secondInitial = secondArr[0];
-    let initials = [firstInitial, secondInitial];
+    makeInitials(first, last) {
+        let firstArr = (first).toLowerCase().split('');
+        let firstInitial = firstArr[0];
+        let secondArr = (last).toLowerCase().split('');
+        let secondInitial = secondArr[0];
+        let initials = [firstInitial, secondInitial];
 
-    return (
-      <p className='initials'>{initials}</p>)
-  }
-
-  render() {
-
-    const styles = {
-      envelope: {
-          width: '30px'
-      },
-      profileStory: {
-          textAlign: 'left',
-          padding: '5px'
-      }
+        return (
+            <p className='initials'>{initials}</p>
+        )
     }
 
-    return(
-      <div>
-          <img style={styles.envelope} src={envelope} alt='messages'/>
-        <div className='initial-circle'>
-          {this.makeInitials(this.props.currProfile.firstname, this.props.currProfile.lastname)}
-        </div>
-        <p>{this.props.currProfile.firstname} {this.props.currProfile.lastname}</p>
-        <p>{this.props.currProfile.email}</p>
-        <p style={styles.profileStory}>{this.props.currProfile.bio}</p>
-      </div>
-    );
+    render() {
 
-  }
-}
-
-export default ProfileData;
+        return (
+            <div className='profile-container'>
+                <div className='initial-circle'>
+                        {this.makeInitials(this.props.currProfile.firstname, this.props.currProfile.lastname)}
+                </div>
+                <div className='profile-data'>
+                        <p className='profile-username'>{this.props.currProfile.firstname} {this.props.currProfile.lastname}</p>
+                        <p className='profile-email'>{this.props.currProfile.email}</p>
+                        <p className='profile-bio'>{this.props.currProfile.bio}</p>
+                </div>
+              </div>
+            );
+          }
+        }
+        export default ProfileData;

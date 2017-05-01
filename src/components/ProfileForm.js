@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import BtnSubmit from './BtnSubmit';
+import DjangoCSRFToken from 'django-react-csrftoken'
+
 
 class ProfileForm extends Component {
 
@@ -51,6 +53,7 @@ class ProfileForm extends Component {
 
         return (
             <form id='profile-form' style={styles.profileForm}>
+                <DjangoCSRFToken/>
                 <p>Tell us a little about yourself</p>
                 <div>
                     <input style={styles.inputBox} ref={(input) => this.firstname = input} type="text" placeholder='first name' required/>

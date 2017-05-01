@@ -12,6 +12,12 @@ class Profile extends Component {
     super();
     this.setProfile = this.setProfile.bind(this);
     this.state = {
+      // profile: {
+      //   firstname: 'Vallyre',
+      //   lastname: 'Hyers',
+      //   email: 'val@myspace.com',
+      //   bio: 'This is my bio.  I am really cool and everyone wants to be like me cause I can do nearly anything.'
+      // }
       profile: {
         firstname: null,
         lastname: null,
@@ -25,12 +31,12 @@ class Profile extends Component {
     console.log('in setProfile');
 
     axios({
-      method: 'put',
-      url: 'http://arcane-hollows-70832.herokuapp.com/api/user_profile/',
-      auth: {
-        username: 'admin',
-        password: 'mypasword'
-      },
+      method: 'PUT',
+      url: `http://arcane-hollows-70832.herokuapp.com/api/user_profile/${this.props.userid}/`,
+      // auth: {
+      //   username: 'admin',
+      //   password: 'mypasword'
+      // },
       data: profile
     }).then((response) => {
       console.log('success!', response);
@@ -66,7 +72,7 @@ class Profile extends Component {
                 padding: '20px 0'
             },
             skill: {
-                backgroundColor: '#ccc',
+                backgroundColor: '#328cc1',
                 borderRadius: '10px',
                 padding: '5px 10px',
                 margin: '2px'
