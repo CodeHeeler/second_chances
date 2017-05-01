@@ -45,7 +45,7 @@ class Provided_SkillSerializer(serializers.ModelSerializer):
 class Required_SkillSerializer(serializers.ModelSerializer):
     class Meta:
         model = Required_Skill
-        fields = ('owner', 'skill')
+        fields = ('owner', 'skill', 'skill_string')
 
 
 class ConnectionSerializer(serializers.ModelSerializer):

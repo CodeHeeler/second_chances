@@ -47,6 +47,8 @@ class Provided_Skill(models.Model):
 class Required_Skill(models.Model):
     owner = models.ForeignKey(Job)
     skill = models.ForeignKey(Skills)
+    skill_string = models.CharField(max_length=25, null=True)
+
 
     def __str__(self):
         return self.skill.skill

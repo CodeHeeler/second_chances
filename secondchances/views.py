@@ -65,6 +65,22 @@ class JobViewSet(viewsets.ModelViewSet):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
 
+    def get_queryset(self):
+        try:
+            jobs = []
+            user_id = self.kwargs['user_id']
+            user_profile = User_Profile.objects.get(user=user_id)
+            provided_skills = Provided_Skill.objects.filter(owner=user_profile)
+            required_skills = Required_Skill.objects.all()
+            for owned_skill in provided_skills:
+                for job_skill in required_skills:
+                    if owned_skill == job_skill:
+                        jobs.append(job_skill.owner)
+            return jobs
+        except:
+            return Job.objects.all()
+
+
 
 class SkillsViewSet(viewsets.ModelViewSet):
     queryset = Skills.objects.all()
@@ -77,13 +93,17 @@ class Provided_SkillViewSet(viewsets.ModelViewSet):
     serializer_class = Provided_SkillSerializer
 
     def get_queryset(self):
-        user_id = self.kwargs['user_id']
-        user_profile = User_Profile.objects.get(user=user_id)
-        # provided_skill = user_profile.provided_skill_set.all()
-        provided_skills = Provided_Skill.objects.filter(owner=user_profile)
-        for owned_skill in provided_skills:
-            owned_skill.skill_string = owned_skill.skill.skill
-        return provided_skills
+        try:
+            user_id = self.kwargs['user_id']
+            user_profile = User_Profile.objects.get(user=user_id)
+            # provided_skill = user_profile.provided_skill_set.all()
+            provided_skills = Provided_Skill.objects.filter(owner=user_profile)
+            for owned_skill in provided_skills:
+                owned_skill.skill_string = owned_skill.skill.skill
+            return provided_skills
+        except:
+            return Provided_Skill.objects.all()
+
 
 
 # class Provided_SkillList(viewsets.ModelViewSet):
@@ -97,6 +117,17 @@ class Provided_SkillViewSet(viewsets.ModelViewSet):
 class Required_SkillViewSet(viewsets.ModelViewSet):
     queryset = Required_Skill.objects.all()
     serializer_class = Required_SkillSerializer
+
+    def get_queryset(self):
+        try:
+            job_id = self.kwargs['job_id']
+            job = Job.objects.get(owner=job_id)
+            required_skills = Required_Skill.objects.filter(owner=job)
+            for owned_skill in required_skills:
+                owned_skill.skill_string = owned_skill.skill.skill
+            return required_skills
+        except:
+            return Required_Skill.objects.all()
 
 
 class ConnectionViewSet(viewsets.ModelViewSet):
