@@ -78,7 +78,12 @@ class Provided_SkillViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user_id = self.kwargs['user_id']
-        return Provided_Skill.objects.filter(owner=user_id)
+        user_profile = User_Profile.objects.get(user=user_id)
+        # provided_skill = user_profile.provided_skill_set.all()
+        provided_skills = Provided_Skill.objects.filter(owner=user_profile)
+        for owned_skill in provided_skills:
+            owned_skill.skill_string = owned_skill.skill.skill
+        return provided_skills
 
 
 # class Provided_SkillList(viewsets.ModelViewSet):
