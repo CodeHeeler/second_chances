@@ -1,20 +1,26 @@
 import React, {Component} from 'react';
+import TextField from 'material-ui/TextField';
 import BtnSubmit from './BtnSubmit';
-
 
 class LoginForm extends Component {
 
   constructor() {
       super();
       this.loginUser = this.loginUser.bind(this);
+      this.handleChange = this.handleChange.bind(this);
+      this.hideError = this.hideError.bind(this);
+      this.state = {
+        username: '',
+        password: ''
+      };
   }
 
   loginUser(event, type) {
     event.preventDefault();
-    console.log('in loginUser');
+    console.log('in loginUser: ');
     const user = {
-      username: this.loginusername.value,
-      password: this.loginpassword.value,
+      username: this.state.username,
+      password: this.state.password,
     }
     let url = '';
     if (type==='login') {
@@ -30,8 +36,13 @@ class LoginForm extends Component {
 
   hideError() {
     document.getElementById('errorMsg').innerText='';
-
   }
+
+  handleChange = (e) => {
+    let newState = {};
+    newState[e.target.name] = e.target.value;
+    this.setState(newState);
+  };
 
   render() {
 
@@ -42,13 +53,12 @@ class LoginForm extends Component {
         justifyContent: 'space-between',
         alignItems: 'center',
       },
-      inputBox: {
+      hintStyle: {
+        width: '100%',
         textAlign: 'center',
-        border: '1px solid #ccc',
-        padding: '10px',
-        margin: '5px',
-        width: '200px',
-        fontSize: '1rem'
+      },
+      underlineFocusStyle: {
+        borderColor: '#d9b310',
       },
       buttons: {
         marginTop: '10px'
@@ -61,16 +71,46 @@ class LoginForm extends Component {
 
   return (
     <div>
-      <h2>Login or Create an Account</h2>
-
-      <form id="login-form" style={styles.inputForm} >
-        <input style={styles.inputBox} onFocus={this.hideError} ref={(input) => this.loginusername = input} type="text" placeholder='username' required/>
-        <input style={styles.inputBox} ref={(input) => this.loginpassword = input} type="password" placeholder='password' required/>
+      <h2 className='space-after'>Login or Create an Account</h2>
+      <form id="login-form" style={styles.inputForm} onSubmit={this.loginUser}>
+        <TextField
+          type="text"
+          name='username'
+          id='username'
+          value={this.state.username}
+          onFocus={this.hideError}
+          onChange={this.handleChange}
+          hintText='enter a username'
+          hintStyle={styles.hintStyle}
+          underlineFocusStyle={styles.underlineFocusStyle}
+          required
+        />
+        <TextField
+          type="password"
+          name='password'
+          id='password'
+          value={this.state.password}
+          onFocus={this.hideError}
+          onChange={this.handleChange}
+          hintText='enter a password'
+          hintStyle={styles.hintStyle}
+          underlineFocusStyle={styles.underlineFocusStyle}
+          required
+          />
         <div style={styles.buttons}>
           <div style={styles.invalid} id='errorMsg'></div>
-          <BtnSubmit type="submit" ref={(input) => this.loginForm = input} onClick={(e) => this.loginUser(e, 'login')}>Login Account</BtnSubmit>
-          <BtnSubmit type="submit" ref={(input) => this.loginForm = input} onClick={(e) => this.loginUser(e, 'create')}>Create Account</BtnSubmit>
+          <BtnSubmit
+            type="submit"
+            onClick={(e) => this.loginUser(e, 'login')}>
+            Login Account
+          </BtnSubmit>
+          <BtnSubmit
+            type="submit"
+            onClick={(e) => this.loginUser(e, 'create')}>
+            Create Account
+          </BtnSubmit>
         </div>
+
       </form>
     </div>
   );
