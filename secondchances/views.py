@@ -72,9 +72,10 @@ class JobViewSet(viewsets.ModelViewSet):
             user_profile = User_Profile.objects.get(user=user_id)
             provided_skills = Provided_Skill.objects.filter(owner=user_profile)
             required_skills = Required_Skill.objects.all()
+            user_locations = User_Location.objects.filter(owner=user_profile)
             for owned_skill in provided_skills:
                 for job_skill in required_skills:
-                    if owned_skill.skill == job_skill.skill:
+                    if (owned_skill.skill == job_skill.skill) and (job_skill.owner.location in user_locations):
                         jobs.append(job_skill.owner)
             return jobs
         except:
@@ -121,6 +122,46 @@ class Required_SkillViewSet(viewsets.ModelViewSet):
             return required_skills
         except:
             return Required_Skill.objects.all()
+
+
+class LocationViewSet(viewsets.ModelViewSet):
+    queryset = Location.objects.all()
+    serializer_class = LocationSerializer
+
+
+class User_LocationViewSet(viewsets.ModelViewSet):
+    queryset = User_Location.objects.all()
+    # queryset = Provided_Skill.objects.filter(owner=user_id)
+    serializer_class = User_LocationSerializer
+
+    def get_queryset(self):
+        try:
+            user_id = self.kwargs['user_id']
+            user_profile = User_Profile.objects.get(user=user_id)
+            user_locations = User_Location.objects.filter(owner=user_profile)
+            for owned_location in user_locations:
+                owned_location.location_string = str(owned_location.location)
+                owned_location.save()
+            return user_locations
+        except:
+            return User_Location.objects.all()
+
+
+# class Job_LocationViewSet(viewsets.ModelViewSet):
+#     queryset = Job_Location.objects.all()
+#     serializer_class = JobLocationSerializer
+#
+#     def get_queryset(self):
+#         try:
+#             job_id = self.kwargs['job_id']
+#             job = Job.objects.get(id=job_id)
+#             job_locations = Job_Location.objects.filter(owner=job)
+#             for owned_location in job_locations:
+#                 owned_location.location_string = str(owned_location.location)
+#                 owned_location.save()
+#             return job_locations
+#         except:
+#             return Job_Location.objects.all()
 
 
 class ConnectionViewSet(viewsets.ModelViewSet):

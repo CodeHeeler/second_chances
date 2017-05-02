@@ -20,6 +20,7 @@ class Job(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     created = models.DateTimeField(auto_now=True)
+    location = models.ForeignKey(Location)
 
     def __str__(self):
         return self.title
@@ -55,6 +56,40 @@ class Required_Skill(models.Model):
     class Meta:
         unique_together = ('owner', 'skill')
 
+
+class Location(models.Model):
+    city = models.CharField(max_length=50)
+    state = models.CharField(max_length=2)
+
+    def __str__(self):
+        return self.city + ", " + self.state
+
+    class Meta:
+        unique_together = ('city', 'state')
+
+
+class User_Location(models.Model):
+    owner = models.ForeignKey(User_Profile)
+    location = models.ForeignKey(Location)
+    location_string = models.CharField(max_length=54, null=True)
+
+    def __str__(self):
+        return str(self.location)
+
+    class Meta:
+        unique_together = ('owner', 'location')
+
+
+# class Job_Location(models.Model):
+#     owner = models.ForeignKey(Job)
+#     location = models.ForeignKey(Location)
+#     location_string = models.CharField(max_length=54, null=True)
+#
+#     def __str__(self):
+#         return str(self.location)
+#
+#     class Meta:
+#         unique_together = ('owner', 'location')
 
 
 class Connection(models.Model):

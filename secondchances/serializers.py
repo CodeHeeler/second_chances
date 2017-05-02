@@ -27,7 +27,7 @@ class UserSerializer(serializers.ModelSerializer):
 class JobSerializer(serializers.ModelSerializer):
     class Meta:
         model = Job
-        fields = ('owner', 'title', 'description', 'created')
+        fields = ('owner', 'title', 'description', 'created', 'location')
 
 
 class SkillsSerializer(serializers.ModelSerializer):
@@ -46,6 +46,24 @@ class Required_SkillSerializer(serializers.ModelSerializer):
     class Meta:
         model = Required_Skill
         fields = ('owner', 'skill', 'skill_string')
+
+
+class LocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Location
+        fields = ('city', 'state')
+
+
+class User_LocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User_Location
+        fields = ('owner', 'location', 'location_string')
+
+
+# class Job_LocationSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Job_Location
+#         fields = ('owner', 'location', 'location_string')
 
 
 class ConnectionSerializer(serializers.ModelSerializer):
