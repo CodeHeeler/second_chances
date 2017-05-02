@@ -74,7 +74,7 @@ class JobViewSet(viewsets.ModelViewSet):
             required_skills = Required_Skill.objects.all()
             for owned_skill in provided_skills:
                 for job_skill in required_skills:
-                    if owned_skill == job_skill:
+                    if owned_skill.skill == job_skill.skill:
                         jobs.append(job_skill.owner)
             return jobs
         except:
