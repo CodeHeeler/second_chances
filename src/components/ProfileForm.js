@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
+import TextField from 'material-ui/TextField';
 import BtnSubmit from './BtnSubmit';
-
 import axios from 'axios';
 
 
@@ -10,16 +10,23 @@ class ProfileForm extends Component {
         super();
         this.createProfile = this.createProfile.bind(this);
         this.setProfile = this.setProfile.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.state = {
+          firstname: '',
+          lastname: '',
+          email: '',
+          bio: ''
+        };
     }
 
     createProfile(event) {
       event.preventDefault();
         console.log('in createProfile');
         const profile = {
-            firstname: this.firstname.value,
-            lastname: this.lastname.value,
-            emailaddress: this.email.value,
-            bio: this.bio.value,
+            firstname: this.state.firstname,
+            lastname: this.state.lastname,
+            emailaddress: this.state.email,
+            bio: this.state.bio,
           };
         this.setProfile(profile);
     }
@@ -39,6 +46,12 @@ class ProfileForm extends Component {
       });
     }
 
+    handleChange = (e) => {
+      let newState = {};
+      newState[e.target.name] = e.target.value;
+      this.setState(newState);
+    };
+
     render() {
 
         const styles = {
@@ -46,36 +59,72 @@ class ProfileForm extends Component {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                alignItems: 'center'
+                alignItems: 'center',
+                backgroundColor: '#eee'
             },
-            inputBox: {
-                textAlign: 'center',
-                border: '1px solid #ccc',
-                padding: '10px',
-                margin: '5px',
-                fontSize: '1rem',
-                minWidth: '46%'
+            hintStyle: {
+              width: '100%',
+              textAlign: 'center',
             },
-            textareaBox: {
-                textAlign: 'center',
-                border: '1px solid #ccc',
-                padding: '10px',
-                margin: '5px',
-                fontSize: '1rem',
-                width: '80%'
+            underlineFocusStyle: {
+              borderColor: '#d9b310',
+            },
+            underlineStyle: {
+              // borderColor: '#999'
             }
         }
 
         return (
-            <form id='profile-form' style={styles.profileForm}>
+            <form id='profile-form' style={styles.profileForm} onSubmit={this.createProfile}>
                 <p>Tell us a little about yourself</p>
-                <div>
-                    <input style={styles.inputBox} ref={(input) => this.firstname = input} type="text" placeholder='first name' required/>
-                    <input style={styles.inputBox} ref={(input) => this.lastname = input} type="text" placeholder='last name' required/>
-                </div>
-                <input style={styles.inputBox} ref={(input) => this.email = input} type="email" placeholder='email'/>
-                <textarea style={styles.textareaBox} ref={(input) => this.bio = input} type='text' placeholder='Share your story'/>
-                <BtnSubmit type="submit" ref={(input) => this.profileForm = input} onClick={(e) => this.createProfile(e)}>Make my Profile</BtnSubmit>
+                    <TextField
+                      type="text"
+                      name='firstname'
+                      id='firstname'
+                      value={this.state.firstname}
+                      onFocus={this.hideError}
+                      onChange={this.handleChange}
+                      hintText='first name'
+                      hintStyle={styles.hintStyle}
+                      underlineStyle={styles.underlineStyle}
+                      underlineFocusStyle={styles.underlineFocusStyle}
+                      required/>
+                    <TextField
+                      type="text"
+                      name='lastname'
+                      value={this.state.lastname}
+                      onFocus={this.hideError}
+                      onChange={this.handleChange}
+                      hintText='last name'
+                      hintStyle={styles.hintStyle}
+                      underlineStyle={styles.underlineStyle}
+                      underlineFocusStyle={styles.underlineFocusStyle}
+                      required/>
+                <TextField
+                  type="email"
+                  name='email'
+                  id='email'
+                  value={this.state.email}
+                  onFocus={this.hideError}
+                  onChange={this.handleChange}
+                  hintText='email'
+                  hintStyle={styles.hintStyle}
+                  underlineStyle={styles.underlineStyle}
+                  underlineFocusStyle={styles.underlineFocusStyle}/>
+                <TextField
+                  type='text'
+                  name='bio'
+                  id='bio'
+                  value={this.state.bio}
+                  onFocus={this.hideError}
+                  onChange={this.handleChange}
+                  multiLine={true}
+                  rows={1}
+                  hintText='Share your story'
+                  hintStyle={styles.hintStyle}
+                  underlineStyle={styles.underlineStyle}
+                  underlineFocusStyle={styles.underlineFocusStyle}/>
+                <BtnSubmit type="submit" onClick={(e) => this.createProfile(e)}>Make my Profile</BtnSubmit>
             </form>
         );
     }

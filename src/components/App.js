@@ -2,9 +2,13 @@ import React, {Component} from 'react';
 import '../stylesheets/reset.css';
 import '../stylesheets/App.css';
 import {browserHistory} from 'react-router';
-
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import axios from 'axios';
 
+
+injectTapEventPlugin();
 
 class App extends Component {
 
@@ -65,9 +69,12 @@ class App extends Component {
         });
       });
         return (
+          <MuiThemeProvider muiTheme={getMuiTheme()}>
               <main>
                 {childWithProp}
               </main>
+          </MuiThemeProvider>
+
         );
     }
 }

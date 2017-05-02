@@ -15,6 +15,7 @@ class Profile extends Component {
     this.getProfile = this.getProfile.bind(this);
     // this.getUserSkills = this.getUserSkills.bind(this);
     this.getSkills = this.getSkills.bind(this);
+    this.getAllSkills = this.getAllSkills.bind(this);
     this.state = {
       // profile: {
       //   firstname: 'Vallyre',
@@ -28,14 +29,16 @@ class Profile extends Component {
         email: null,
         bio: null
       },
-      skills: null
-    }
+      skills: null,
+      allSkills: []
+      }
   }
 
   componentDidMount() {
     this.getProfile();
     // this.getUserSkills();
     this.getSkills();
+    this.getAllSkills();
   }
 
   getProfile() {
@@ -50,6 +53,23 @@ class Profile extends Component {
         let profile = {profile: response.data};
         this.setState(profile);
         this.showProfileForm();
+    }).catch(function(error) {
+        console.log(error);
+    });
+  }
+
+  getAllSkills() {
+    console.log('in getAllSkills');
+    let stuff = {
+        method: 'get',
+        url: `${this.props.baseurl}/api/skills`,
+    };
+    axios(stuff).then((response) => {
+      console.log('skill response: ',response);
+      let allSkills = {allSkills: response.data.results};
+      console.log('allSkills: ', allSkills);
+      this.setState(allSkills);
+
     }).catch(function(error) {
         console.log(error);
     });
@@ -102,7 +122,7 @@ class Profile extends Component {
       )
     } else {
       return (
-        <SkillsForm baseurl={this.props.baseurl} userid={this.props.userid} />
+        <SkillsForm baseurl={this.props.baseurl} userid={this.props.userid} allSkills={this.state.allSkills} />
       )
     }
   }

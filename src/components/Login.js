@@ -11,7 +11,7 @@ class Login extends Component {
         },
         loginContainer: {
             textAlign: 'center',
-            margin: '20px auto',
+            margin: '10px auto',
             padding: '20px'
         },
         logoImg: {
@@ -21,8 +21,8 @@ class Login extends Component {
         tagline: {
           backgroundColor: '#083c5d',
           color: '#d9b310',
-          fontSize: '1.2rem',
-          padding: '20px',
+          fontSize: '1rem',
+          padding: '5px',
           fontStyle: 'italic'
         }
       }
