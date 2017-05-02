@@ -100,6 +100,7 @@ class Provided_SkillViewSet(viewsets.ModelViewSet):
             provided_skills = Provided_Skill.objects.filter(owner=user_profile)
             for owned_skill in provided_skills:
                 owned_skill.skill_string = owned_skill.skill.skill
+                owned_skill.save()
             return provided_skills
         except:
             return Provided_Skill.objects.all()
@@ -116,6 +117,7 @@ class Required_SkillViewSet(viewsets.ModelViewSet):
             required_skills = Required_Skill.objects.filter(owner=job)
             for owned_skill in required_skills:
                 owned_skill.skill_string = owned_skill.skill.skill
+                owned_skill.save()
             return required_skills
         except:
             return Required_Skill.objects.all()
