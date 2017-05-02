@@ -49,7 +49,6 @@ class Required_Skill(models.Model):
     skill = models.ForeignKey(Skills)
     skill_string = models.CharField(max_length=25, null=True)
 
-
     def __str__(self):
         return self.skill.skill
 

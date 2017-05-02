@@ -114,8 +114,8 @@ class Required_SkillViewSet(viewsets.ModelViewSet):
             job_id = self.kwargs['job_id']
             job = Job.objects.get(id=job_id)
             required_skills = Required_Skill.objects.filter(owner=job)
-            for owned_skill in required_skills:
-                owned_skill.skill_string = owned_skill.skill.skill
+            # for owned_skill in required_skills:
+            #     owned_skill.skill_string = owned_skill.skill.skill
             return required_skills
         except:
             return Required_Skill.objects.all()
