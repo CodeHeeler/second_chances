@@ -15,12 +15,23 @@ class User_Profile(models.Model):
         return self.user.username
 
 
+class Location(models.Model):
+    city = models.CharField(max_length=50)
+    state = models.CharField(max_length=2)
+
+    def __str__(self):
+        return self.city + ", " + self.state
+
+    class Meta:
+        unique_together = ('city', 'state')
+
+
 class Job(models.Model):
     owner = models.ForeignKey(User_Profile)
     title = models.CharField(max_length=100)
     description = models.TextField()
     created = models.DateTimeField(auto_now=True)
-    location = models.ForeignKey(Location)
+    location = models.ForeignKey(Location, null=True)
 
     def __str__(self):
         return self.title
@@ -55,17 +66,6 @@ class Required_Skill(models.Model):
 
     class Meta:
         unique_together = ('owner', 'skill')
-
-
-class Location(models.Model):
-    city = models.CharField(max_length=50)
-    state = models.CharField(max_length=2)
-
-    def __str__(self):
-        return self.city + ", " + self.state
-
-    class Meta:
-        unique_together = ('city', 'state')
 
 
 class User_Location(models.Model):
