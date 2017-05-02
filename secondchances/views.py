@@ -77,6 +77,8 @@ class JobViewSet(viewsets.ModelViewSet):
                 for job_skill in required_skills:
                     if (owned_skill.skill == job_skill.skill) and (job_skill.owner.location in user_locations):
                         jobs.append(job_skill.owner)
+            if len(jobs) == 0:
+                return Job.objects.all()
             return jobs
         except:
             return Job.objects.all()
