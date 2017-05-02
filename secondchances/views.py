@@ -105,15 +105,6 @@ class Provided_SkillViewSet(viewsets.ModelViewSet):
             return Provided_Skill.objects.all()
 
 
-
-# class Provided_SkillList(viewsets.ModelViewSet):
-#     serializer_class = Provided_SkillSerializer
-
-    # def get_queryset(self):
-    #     user_id = self.kwargs['user_id']
-    #     return Provided_Skill.objects.filter(owner=user_id)
-
-
 class Required_SkillViewSet(viewsets.ModelViewSet):
     queryset = Required_Skill.objects.all()
     serializer_class = Required_SkillSerializer
@@ -121,7 +112,7 @@ class Required_SkillViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         try:
             job_id = self.kwargs['job_id']
-            job = Job.objects.get(owner=job_id)
+            job = Job.objects.get(id=job_id)
             required_skills = Required_Skill.objects.filter(owner=job)
             for owned_skill in required_skills:
                 owned_skill.skill_string = owned_skill.skill.skill
