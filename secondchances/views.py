@@ -75,8 +75,10 @@ class JobViewSet(viewsets.ModelViewSet):
             user_locations = User_Location.objects.filter(owner=user_profile)
             for owned_skill in provided_skills:
                 for job_skill in required_skills:
-                    if (owned_skill.skill == job_skill.skill) and (job_skill.owner.location in user_locations):
-                        jobs.append(job_skill.owner)
+                    if (owned_skill.skill == job_skill.skill):
+                        for spot in user_locations:
+                            if str(job_skill.owner.location) == str(spot):
+                                jobs.append(job_skill.owner)
             if len(jobs) == 0:
                 return Job.objects.all()
             return jobs
