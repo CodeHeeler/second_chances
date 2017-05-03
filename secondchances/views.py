@@ -76,14 +76,15 @@ class JobViewSet(viewsets.ModelViewSet):
             for owned_skill in provided_skills:
                 for job_skill in required_skills:
                     if (owned_skill.skill == job_skill.skill):
-                        for spot in user_locations:
-                            if str(job_skill.owner.location) == str(spot):
-                                jobs.append(job_skill.owner)
-            if len(jobs) == 0:
-                return Job.objects.all()
+                        if len(user_locations) == 0:
+                            jobs.append(job_skill.owner)
+                        else:
+                            for spot in user_locations:
+                                if str(job_skill.owner.location) == str(spot):
+                                    jobs.append(job_skill.owner)
             return jobs
         except:
-            return Job.objects.all()
+            return Job.objects.all().sort(key=created, reverse=True)
 
 
 

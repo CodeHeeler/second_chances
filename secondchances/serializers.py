@@ -33,7 +33,7 @@ class JobSerializer(serializers.ModelSerializer):
 class SkillsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Skills
-        fields = ('skill',)
+        fields = ('id', 'skill')
 
 
 class Provided_SkillSerializer(serializers.ModelSerializer):
@@ -51,7 +51,7 @@ class Required_SkillSerializer(serializers.ModelSerializer):
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
-        fields = ('city', 'state')
+        fields = ('id', 'city', 'state')
 
 
 class User_LocationSerializer(serializers.ModelSerializer):
