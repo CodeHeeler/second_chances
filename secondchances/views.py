@@ -84,7 +84,7 @@ class JobViewSet(viewsets.ModelViewSet):
                                     jobs.append(job_skill.owner)
             return jobs.sort(key=created, reverse=True)
         except:
-            return Job.objects.all().sort(key=created, reverse=True)
+            return Job.objects.all()
 
 
 
@@ -175,7 +175,7 @@ class ServiceViewSet(viewsets.ModelViewSet):
                                     services.append(service_need.owner)
             return services.sort(key=created, reverse=True)
         except:
-            return list(Service.objects.all()).sort(key=created, reverse=True)
+            return Service.objects.all()
 
 
 class NeedsViewSet(viewsets.ModelViewSet):
