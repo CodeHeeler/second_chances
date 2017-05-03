@@ -175,7 +175,7 @@ class ServiceViewSet(viewsets.ModelViewSet):
                                     services.append(service_need.owner)
             return services.sort(key=created, reverse=True)
         except:
-            return Service.objects.all().sort(key=created, reverse=True)
+            return list(Service.objects.all()).sort(key=created, reverse=True)
 
 
 class NeedsViewSet(viewsets.ModelViewSet):
