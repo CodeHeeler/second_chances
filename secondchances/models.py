@@ -55,11 +55,6 @@ class Provided_Skill(models.Model):
     class Meta:
         unique_together = ('owner', 'skill')
 
-class User_Needs(models.Model):
-    owner = models.ForeignKey(User_Profile)
-    need = models.ForeignKey(needs)
-    need_string = models.CharField(max_length=25, null=True)
-
 
 class Required_Skill(models.Model):
     owner = models.ForeignKey(Job)
@@ -92,6 +87,12 @@ class Needs(models.Model):
         return self.need
 
 
+class User_Needs(models.Model):
+    owner = models.ForeignKey(User_Profile)
+    need = models.ForeignKey(Needs)
+    need_string = models.CharField(max_length=25, null=True)
+
+
 class Service(models.Model):
     owner = models.ForeignKey(User_Profile)
     title = models.CharField(max_length=100)
@@ -101,6 +102,18 @@ class Service(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Provided_Needs(models.Model):
+    owner = models.ForeignKey(Service)
+    need = models.ForeignKey(Needs)
+    need_string = models.CharField(max_length=25, null=True)
+
+    def __str__(self):
+        return self.need.need
+
+    class Meta:
+        unique_together = ('owner', 'need')
 
 
 class Connection(models.Model):
