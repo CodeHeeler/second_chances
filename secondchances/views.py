@@ -82,7 +82,7 @@ class JobViewSet(viewsets.ModelViewSet):
                             for spot in user_locations:
                                 if str(job_skill.owner.location) == str(spot):
                                     jobs.append(job_skill.owner)
-            return jobs
+            return jobs.sort(key=created, reverse=True)
         except:
             return Job.objects.all().sort(key=created, reverse=True)
 
@@ -152,21 +152,71 @@ class User_LocationViewSet(viewsets.ModelViewSet):
             return User_Location.objects.all()
 
 
-# class Job_LocationViewSet(viewsets.ModelViewSet):
-#     queryset = Job_Location.objects.all()
-#     serializer_class = JobLocationSerializer
-#
-#     def get_queryset(self):
-#         try:
-#             job_id = self.kwargs['job_id']
-#             job = Job.objects.get(id=job_id)
-#             job_locations = Job_Location.objects.filter(owner=job)
-#             for owned_location in job_locations:
-#                 owned_location.location_string = str(owned_location.location)
-#                 owned_location.save()
-#             return job_locations
-#         except:
-#             return Job_Location.objects.all()
+class ServiceViewSet(viewsets.ModelViewSet):
+    queryset = Service.objects.all()
+    serializer_class = ServiceSerializer
+
+    def get_queryset(self):
+        try:
+            services = []
+            user_id = self.kwargs['user_id']
+            user_profile = User_Profile.objects.get(user=user_id)
+            user_needs = User_Needs.objects.filter(owner=user_profile)
+            provided_needs = Provided_Needs.objects.all()
+            user_locations = User_Location.objects.filter(owner=user_profile)
+            for owned_need in user_needs:
+                for service_need in provided_needs:
+                    if (owned_need.need == service_need.need):
+                        if len(user_locations) == 0:
+                            services.append(service_need.owner)
+                        else:
+                            for spot in user_locations:
+                                if str(service_need.owner.location) == str(spot):
+                                    services.append(service_need.owner)
+            return services.sort(key=created, reverse=True)
+        except:
+            return Service.objects.all().sort(key=created, reverse=True)
+
+
+class NeedsViewSet(viewsets.ModelViewSet):
+    queryset = Needs.objects.all()
+    serializer_class = NeedsSerializer
+
+
+class User_NeedsViewSet(viewsets.ModelViewSet):
+    queryset = User_Needs.objects.all()
+    # queryset = Provided_Skill.objects.filter(owner=user_id)
+    serializer_class = User_NeedsSerializer
+
+    def get_queryset(self):
+        try:
+            user_id = self.kwargs['user_id']
+            user_profile = User_Profile.objects.get(user=user_id)
+            # provided_skill = user_profile.provided_skill_set.all()
+            user_needs = User_Needs.objects.filter(owner=user_profile)
+            for owned_need in user_needs:
+                owned_need.need_string = owned_need.need.need
+                owned_need.save()
+            return user_needs
+        except:
+            return User_Needs.objects.all()
+
+
+class Provided_NeedsViewSet(viewsets.ModelViewSet):
+    queryset = Provided_Needs.objects.all()
+    serializer_class = Provided_NeedsSerializer
+
+    def get_queryset(self):
+        try:
+            service_id = self.kwargs['service_id']
+            service = Service.objects.get(id=service_id)
+            provided_needs = Provided_Needs.objects.filter(owner=job)
+            for owned_need in provided_needs:
+                owned_need.need_string = owned_need.need.need
+                owned_need.save()
+            return provided_needs
+        except:
+            return Provided_Needs.objects.all()
 
 
 class ConnectionViewSet(viewsets.ModelViewSet):

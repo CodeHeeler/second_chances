@@ -60,10 +60,28 @@ class User_LocationSerializer(serializers.ModelSerializer):
         fields = ('owner', 'location', 'location_string')
 
 
-# class Job_LocationSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Job_Location
-#         fields = ('owner', 'location', 'location_string')
+class NeedsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Needs
+        fields = ('id', 'need')
+
+
+class ServiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Service
+        fields = ('owner', 'title', 'description', 'created', 'location')
+
+
+class User_NeedsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Provided_Skill
+        fields = ('owner', 'need', 'need_string')
+
+
+class Provided_NeedsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Provided_Needs
+        fields = ('owner', 'need', 'need_string')
 
 
 class ConnectionSerializer(serializers.ModelSerializer):

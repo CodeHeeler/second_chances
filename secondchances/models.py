@@ -55,6 +55,11 @@ class Provided_Skill(models.Model):
     class Meta:
         unique_together = ('owner', 'skill')
 
+class User_Needs(models.Model):
+    owner = models.ForeignKey(User_Profile)
+    need = models.ForeignKey(needs)
+    need_string = models.CharField(max_length=25, null=True)
+
 
 class Required_Skill(models.Model):
     owner = models.ForeignKey(Job)
@@ -80,16 +85,22 @@ class User_Location(models.Model):
         unique_together = ('owner', 'location')
 
 
-# class Job_Location(models.Model):
-#     owner = models.ForeignKey(Job)
-#     location = models.ForeignKey(Location)
-#     location_string = models.CharField(max_length=54, null=True)
-#
-#     def __str__(self):
-#         return str(self.location)
-#
-#     class Meta:
-#         unique_together = ('owner', 'location')
+class Needs(models.Model):
+    need = models.CharField(max_length=30, unique=True)
+
+    def __str__(self):
+        return self.need
+
+
+class Service(models.Model):
+    owner = models.ForeignKey(User_Profile)
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    created = models.DateTimeField(auto_now=True)
+    location = models.ForeignKey(Location, null=True)
+
+    def __str__(self):
+        return self.title
 
 
 class Connection(models.Model):
