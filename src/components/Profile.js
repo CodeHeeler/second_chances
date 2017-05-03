@@ -2,101 +2,82 @@ import React, {Component} from 'react';
 import Header from './Header';
 import ProfileData from './ProfileData';
 import ProfileForm from './ProfileForm';
-import SkillsForm from './SkillsForm';
-import SkillsData from './SkillsData';
+import ChooseForm from './ChooseForm';
+import ShowData from './ShowData';
 import HeaderBar from './HeaderBar';
 
 import axios from 'axios';
 
 class Profile extends Component {
 
-  constructor() {
-    super();
-    this.getProfile = this.getProfile.bind(this);
-    // this.getUserSkills = this.getUserSkills.bind(this);
-    this.getSkills = this.getSkills.bind(this);
-    this.getAllSkills = this.getAllSkills.bind(this);
+  constructor(props) {
+    super(props);
+    this.getData = this.getData.bind(this);
+    // this.getSkills = this.getSkills.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
     this.state = {
-      // profile: {
-      //   firstname: 'Vallyre',
-      //   lastname: 'Hyers',
-      //   email: 'val@myspace.com',
-      //   bio: 'This is my bio.  I am really cool and everyone wants to be like me cause I can do nearly anything.'
-      // }
       profile: {
         firstname: null,
         lastname: null,
         email: null,
         bio: null
       },
-      skills: null,
-      allSkills: []
-      }
+      userid: 1,
+      // userid: this.props.userid,
+      userskills: [],
+      userlocations: null,
+      allskills: [],
+      alllocations: []
+    }
   }
 
   componentDidMount() {
-    this.getProfile();
-    // this.getUserSkills();
-    this.getSkills();
-    this.getAllSkills();
+    this.getData('profile');
+    this.getData('userskills');
+    this.getData('userlocations');
+    this.getData('alllocations');
+    this.getData('allskills');
   }
 
-  getProfile() {
-    console.log('in getProfile');
-    let stuff = {
-        method: 'get',
-        url: `${this.props.baseurl}/api/user_profile/${this.props.userid}/`,
-        // url: `${this.props.baseurl}/api/user_profile/1/`,
-    };
+  getData(type) {
+    let url;
+    if (type==='profile') {
+      url=`${this.props.baseurl}/api/user_profile/${this.state.userid}/`;
+    } else if (type === 'userskills') {
+      url=`${this.props.baseurl}/api/providedskill/${this.state.userid}`;
+    } else if (type === 'userlocations') {
+      url=`${this.props.baseurl}/api/userlocation/${this.state.userid}`;
+    } else if (type === 'alllocations') {
+      url=`${this.props.baseurl}/api/location`;
+    } else if (type === 'allskills') {
+      url=`${this.props.baseurl}/api/skills`;
+    }
 
-    axios(stuff).then((response) => {
-        let profile = {profile: response.data};
-        this.setState(profile);
-        this.showProfileForm();
-    }).catch(function(error) {
-        console.log(error);
-    });
-  }
+    axios
+      .get(url).then((response) => {
 
-  getAllSkills() {
-    console.log('in getAllSkills');
-    let stuff = {
-        method: 'get',
-        url: `${this.props.baseurl}/api/skills`,
-    };
-    axios(stuff).then((response) => {
-      console.log('skill response: ',response);
-      let allSkills = {allSkills: response.data.results};
-      console.log('allSkills: ', allSkills);
-      this.setState(allSkills);
-
-    }).catch(function(error) {
-        console.log(error);
-    });
-  }
-
-  getSkills() {
-    console.log('in getSkills');
-    let stuff = {
-        method: 'get',
-        // url: `${this.props.baseurl}/api/providedskill/1`,
-        url: `${this.props.baseurl}/api/providedskill/${this.props.userid}`,
-        // url: `${this.props.baseurl}/api/skills`,
-    };
-    axios(stuff).then((response) => {
-      console.log('skill response: ',response);
-      let skillsObj = response.data.results;
-      let skillsArr = [];
-      let skills = {};
-      for (let i in skillsObj) {
-        if (skillsObj.hasOwnProperty(i)){
-          skillsArr.push(skillsObj[i].skill_string);
-          console.log('skillsArr ', skillsArr);
-          skills = {skills: skillsArr};
-        };
-      };
-        this.setState(skills);
-        this.showSkillsForm();
+        if (type === 'profile') {
+          console.log('got profile');
+          let profile = {profile: response.data};
+          this.setState(profile);
+          this.showProfileForm();
+        } else if (type === 'userskills'){
+          console.log('got userskills', response);
+          let userskills = {userskills: response.data.results};
+          this.setState(userskills);
+        } else if (type === 'userlocations') {
+          console.log('got userlocations');
+          let userlocations = response.data.results;
+          this.setState(userlocations);
+        } else if (type === 'allskills'){
+          console.log('got allskills');
+          let allskills = {allskills: response.data.results};
+          this.setState(allskills);
+        } else if (type === 'alllocations') {
+          console.log('got alllocations');
+          let alllocations = {alllocations: response.data.results};
+          this.setState(alllocations);
+        } else {return};
     }).catch(function(error) {
         console.log(error);
     });
@@ -110,22 +91,22 @@ class Profile extends Component {
     } else {
       return (
 
-        <ProfileForm getProfile={this.getProfile} baseurl={this.props.baseurl} userid={this.props.userid} />
+        <ProfileForm getProfile={this.getProfile} baseurl={this.props.baseurl} userid={this.state.userid} />
       )
     }
   }
 
-  showSkillsForm() {
-    if (this.state.skills !== null) {
-      return (
-        <SkillsData baseurl={this.props.baseurl} userid={this.props.userid} skills={this.state.skills} />
-      )
-    } else {
-      return (
-        <SkillsForm baseurl={this.props.baseurl} userid={this.props.userid} allSkills={this.state.allSkills} />
-      )
-    }
-  }
+  // showSkillsForm() {
+  //   if (this.state.skills !== null) {
+  //     return (
+  //       <ShowData type={'skills'} baseurl={this.props.baseurl} userid={this.state.userid} skills={this.state.skills} />
+  //     )
+  //   } else {
+  //     return (
+  //       <SkillsForm baseurl={this.props.baseurl} userid={this.state.userid} allSkills={this.state.allSkills} />
+  //     )
+  //   }
+  // }
 
     render() {
 
@@ -172,7 +153,8 @@ class Profile extends Component {
                     <div>
                       <HeaderBar innerText='Skills' />
                       <ul style={styles.skillsContainer}>
-                        {this.showSkillsForm()}
+                        <ChooseForm choose={'skills'} baseurl={this.props.baseurl} userid={this.state.userid} allskills={this.state.allskills} />
+                        <ShowData show={'skills'} baseurl={this.props.baseurl} userid={this.state.userid} skills={this.state.userskills} />
                       </ul>
                     </div>
 
