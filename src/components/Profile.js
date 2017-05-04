@@ -3,9 +3,12 @@ import Header from './Header';
 import ProfileData from './ProfileData';
 import ProfileForm from './ProfileForm';
 import ChooseForm from './ChooseForm';
-import ShowData from './ShowData';
+import Chips from './Chips';
 import HeaderBar from './HeaderBar';
 import Post from './Post';
+
+let Panel = require('react-bootstrap').Panel;
+let Accordion = require('react-bootstrap').Accordion;
 
 
 import axios from 'axios';
@@ -50,7 +53,7 @@ class Profile extends Component {
     if (type==='profile') {
       url=`${this.props.baseurl}/api/user_profile/${this.state.userid}/`;
     } else if (type === 'userskills') {
-      url=`${this.props.baseurl}/api/providedskill/${this.state.userid}`;
+      url=`${this.props.baseurl}/api/providedskill/`;
     } else if (type === 'userlocation') {
       url=`${this.props.baseurl}/api/userlocation/${this.state.userid}`;
     } else if (type === 'alllocations') {
@@ -124,7 +127,7 @@ class Profile extends Component {
   postSkill(skill) {
     axios({
       method: 'POST',
-      url:`${this.props.baseurl}/api/providedskill/${skill.owner}/`,
+      url:`${this.props.baseurl}/api/providedskill/`,
       data: skill
     }).then((response) => {
       console.log('skillposted!!', response);
@@ -182,42 +185,38 @@ class Profile extends Component {
                       </div>
                     </div>
 
-                    <section className='skills-section'>
-                      <HeaderBar innerText='my skills' />
+                    <Accordion className='section-skills'>
+                        <Panel header="My Skills" eventKey='1'>
                         <ChooseForm choose='skills' baseurl={this.props.baseurl} userid={this.state.userid} allskills={this.state.allskills} postSkill={this.postSkill}/>
                         <ul style={styles.skillsContainer}>
-                        {Object
-                          .keys(this.state.userskills)
-                          .map(key => <ShowData choose='skills' key={key} userskill={this.state.userskills[key]}/>)
-                        }
-                      </ul>
-                    </section>
+                          {Object
+                            .keys(this.state.userskills)
+                            .map(key => <Chips choose='skills' key={key} userskill={this.state.userskills[key]}/>)
+                          }
+                        </ul>
+                      </Panel>
 
-                    <section className='location-section'>
-                      <HeaderBar innerText='my locations' />
+                      <Panel header="My Locations" eventKey='2'>
                         <ChooseForm choose='locations' baseurl={this.props.baseurl} userid={this.state.userid} alllocations={this.state.alllocations} postLocation={this.postLocation}/>
                         <ul style={styles.skillsContainer}>
                         {Object
                           .keys(this.state.userlocation)
-                          .map(key => <ShowData choose='locations' key={key} userlocation={this.state.userlocation[key]}/>)
+                          .map(key => <Chips choose='locations' key={key} userlocation={this.state.userlocation[key]}/>)
                         }
                       </ul>
-                    </section>
+                    </Panel>
 
-                    <section className='post-section'>
-                      <HeaderBar innerText='Post a Job' />
+                    <Panel header="Post A Job" eventKey='3'>
                       <Post baseurl={this.props.baseurl}/>
-                    </section>
+                    </Panel>
 
-                    <section className='post-section'>
-                      <HeaderBar innerText='Jobs I have Posted' />
+                    <Panel header="Jobs I've Posted" eventKey='4'>
                       <p>Bunch of jobs</p>
                       <p>Bunch of jobs</p>
                       <p>Bunch of jobs</p>
-                    </section>
+                    </Panel>
 
-                    <section className='jobs-section'>
-                      <HeaderBar innerText='Jobs matched to me' />
+                    <Panel header="Jobs Matched To Me" eventKey='5'>
                       <ol style={styles.opportunities}>
                         <li style={styles.opportunity}>This is an opportunity.</li>
                         <li style={styles.opportunity}>This is an opportunity.</li>
@@ -226,10 +225,9 @@ class Profile extends Component {
                         <li style={styles.opportunity}>This is an opportunity.</li>
                         <li style={styles.opportunity}>This is an opportunity.</li>
                       </ol>
-                    </section>
+                    </Panel>
 
-                    <section className='alljobs-section'>
-                    <HeaderBar innerText='View all jobs' />
+                    <Panel header="View All Jobs" eventKey='6'>
                     <ol style={styles.opportunities}>
                       <li style={styles.opportunity}>This is an opportunity.</li>
                       <li style={styles.opportunity}>This is an opportunity.</li>
@@ -238,7 +236,22 @@ class Profile extends Component {
                       <li style={styles.opportunity}>This is an opportunity.</li>
                       <li style={styles.opportunity}>This is an opportunity.</li>
                     </ol>
-                  </section>
+                  </Panel>
+
+                  <Panel header='Messages' eventKey='7'>
+                    <p>Bunch of Messages</p>
+                    <p>Bunch of Messages</p>
+                    <p>Bunch of Messages</p>
+                    <p>Bunch of Messages</p>
+                    <p>Bunch of Messages</p>
+                  </Panel>
+
+                  <Panel header='Resources' eventKey='8'>
+                    <p>Housing</p>
+                    <p>Mental Health</p>
+                    <p>OtherStuff</p>
+                  </Panel>
+                </Accordion>
 
                 </div>
 
