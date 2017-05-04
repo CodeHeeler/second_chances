@@ -15,6 +15,7 @@ class ProfileForm extends Component {
           firstname: '',
           lastname: '',
           email: '',
+          location: '',
           bio: ''
         };
     }
@@ -68,9 +69,6 @@ class ProfileForm extends Component {
             },
             underlineFocusStyle: {
               borderColor: '#d9b310',
-            },
-            underlineStyle: {
-              // borderColor: '#999'
             }
         }
 
@@ -104,6 +102,17 @@ class ProfileForm extends Component {
                   type="email"
                   name='email'
                   id='email'
+                  value={this.state.email}
+                  onFocus={this.hideError}
+                  onChange={this.handleChange}
+                  hintText='email'
+                  hintStyle={styles.hintStyle}
+                  underlineStyle={styles.underlineStyle}
+                  underlineFocusStyle={styles.underlineFocusStyle}/>
+                <TextField
+                  type="text"
+                  name='location'
+                  id='location'
                   value={this.state.email}
                   onFocus={this.hideError}
                   onChange={this.handleChange}

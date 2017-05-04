@@ -45,3 +45,11 @@
   color: #083c5d;
   font-family: serif;
 }
+
+.data-item {
+  background-color: #083c5d;
+  color: #fff;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 5px;
+}
