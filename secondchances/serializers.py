@@ -39,13 +39,13 @@ class SkillsSerializer(serializers.ModelSerializer):
 class Provided_SkillSerializer(serializers.ModelSerializer):
     class Meta:
         model = Provided_Skill
-        fields = ('owner', 'skill', 'skill_string')
+        fields = ('id', 'owner', 'skill', 'skill_string')
 
 
 class Required_SkillSerializer(serializers.ModelSerializer):
     class Meta:
         model = Required_Skill
-        fields = ('owner', 'skill', 'skill_string')
+        fields = ('id', 'owner', 'skill', 'skill_string')
 
 
 class LocationSerializer(serializers.ModelSerializer):

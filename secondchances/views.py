@@ -14,6 +14,7 @@ from rest_framework.decorators import list_route
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from os import sys
+from django.db.models import Q
 
 class User_ProfileViewSet(viewsets.ModelViewSet):
     queryset = User_Profile.objects.all()
@@ -100,14 +101,16 @@ class Provided_SkillViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         try:
-            user_id = self.kwargs['user_id']
+            # user_id = self.kwargs['user_id']
+            user_id = self.request.user.id
             user_profile = User_Profile.objects.get(user=user_id)
             # provided_skill = user_profile.provided_skill_set.all()
             provided_skills = Provided_Skill.objects.filter(owner=user_profile)
             for owned_skill in provided_skills:
                 owned_skill.skill_string = owned_skill.skill.skill
                 owned_skill.save()
-            return provided_skills
+
+            return provided_skills  # .filter(owner=user_profile)
         except:
             return Provided_Skill.objects.all()
 
