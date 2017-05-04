@@ -13,8 +13,9 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.getData = this.getData.bind(this);
-    // this.getSkills = this.getSkills.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.postSkill = this.postSkill.bind(this);
+    this.postLocation = this.postLocation.bind(this);
     this.state = {
       profile: {
         firstname: null,
@@ -22,10 +23,10 @@ class Profile extends Component {
         email: null,
         bio: null
       },
-      userid: 1,
-      // userid: this.props.userid,
+      // userid: 1,
+      userid: localStorage.getItem("userID"),
       userskills: [],
-      userlocations: null,
+      userlocation: [],
       allskills: [],
       alllocations: []
     }
@@ -33,8 +34,8 @@ class Profile extends Component {
 
   componentDidMount() {
     this.getData('profile');
+    this.getData('userlocation');
     this.getData('userskills');
-    this.getData('userlocations');
     this.getData('alllocations');
     this.getData('allskills');
   }
@@ -45,7 +46,7 @@ class Profile extends Component {
       url=`${this.props.baseurl}/api/user_profile/${this.state.userid}/`;
     } else if (type === 'userskills') {
       url=`${this.props.baseurl}/api/providedskill/${this.state.userid}`;
-    } else if (type === 'userlocations') {
+    } else if (type === 'userlocation') {
       url=`${this.props.baseurl}/api/userlocation/${this.state.userid}`;
     } else if (type === 'alllocations') {
       url=`${this.props.baseurl}/api/location`;
@@ -60,15 +61,27 @@ class Profile extends Component {
           console.log('got profile');
           let profile = {profile: response.data};
           this.setState(profile);
+          localStorage.setItem('firstname',profile.firstname);
           this.showProfileForm();
-        } else if (type === 'userskills'){
-          console.log('got userskills', response);
-          let userskills = {userskills: response.data.results};
-          this.setState(userskills);
-        } else if (type === 'userlocations') {
-          console.log('got userlocations');
-          let userlocations = response.data.results;
-          this.setState(userlocations);
+        } else if (type === 'userskills') {
+          console.log('got userskills');
+          let skillObj = response.data.results;
+          let arr = [];
+            for (let i in skillObj) {
+              arr.push(
+                skillObj[i].skill_string);
+            }
+          this.setState({userskills: arr});
+          return;
+        } else if (type === 'userlocation') {
+          console.log('got userlocation');
+          let locationObj = response.data.results;
+          let arr = [];
+            for (let i in locationObj) {
+              arr.push(
+                locationObj[i].location_string);
+            }
+          this.setState({userlocation: arr});
         } else if (type === 'allskills'){
           console.log('got allskills');
           let allskills = {allskills: response.data.results};
@@ -84,6 +97,7 @@ class Profile extends Component {
   }
 
   showProfileForm() {
+
     if (this.state.profile.firstname !== null) {
       return (
         <ProfileData currProfile={this.state.profile}/>
@@ -96,17 +110,31 @@ class Profile extends Component {
     }
   }
 
-  // showSkillsForm() {
-  //   if (this.state.skills !== null) {
-  //     return (
-  //       <ShowData type={'skills'} baseurl={this.props.baseurl} userid={this.state.userid} skills={this.state.skills} />
-  //     )
-  //   } else {
-  //     return (
-  //       <SkillsForm baseurl={this.props.baseurl} userid={this.state.userid} allSkills={this.state.allSkills} />
-  //     )
-  //   }
-  // }
+  postSkill(skill) {
+    axios({
+      method: 'POST',
+      url:`${this.props.baseurl}/api/providedskill/${skill.owner}/`,
+      data: skill
+    }).then((response) => {
+      console.log('skillposted!!', response);
+      this.getData('userskills');
+    }).catch(function(error) {
+      console.log(error);
+    });
+  }
+
+  postLocation(location) {
+    axios({
+      method: 'POST',
+      url:`${this.props.baseurl}/api/userlocation/${this.state.userid}/`,
+      data: location
+    }).then((response) => {
+      console.log('locationposted!!', response);
+      this.getData('userlocation');
+    }).catch(function(error) {
+      console.log(error);
+    });
+  }
 
     render() {
 
@@ -121,15 +149,8 @@ class Profile extends Component {
                 justifyContent: 'center',
                 padding: '20px 0'
             },
-            skill: {
-                backgroundColor: '#083c5d',
-                borderRadius: '10px',
-                padding: '5px 10px',
-                margin: '2px',
-                color: '#fff'
-            },
             opportunities: {
-                textAlign: 'left'
+                textAlign: 'center'
             },
             opportunity: {
                 borderBottom: '1px solid #ccc',
@@ -150,13 +171,27 @@ class Profile extends Component {
                       </div>
                     </div>
 
-                    <div>
+                    <section className='skills-section'>
                       <HeaderBar innerText='Skills' />
-                      <ul style={styles.skillsContainer}>
-                        <ChooseForm choose={'skills'} baseurl={this.props.baseurl} userid={this.state.userid} allskills={this.state.allskills} />
-                        <ShowData show={'skills'} baseurl={this.props.baseurl} userid={this.state.userid} skills={this.state.userskills} />
+                        <ChooseForm choose='skills' baseurl={this.props.baseurl} userid={this.state.userid} allskills={this.state.allskills} postSkill={this.postSkill}/>
+                        <ul style={styles.skillsContainer}>
+                        {Object
+                          .keys(this.state.userskills)
+                          .map(key => <ShowData choose='skills' key={key} userskill={this.state.userskills[key]}/>)
+                        }
                       </ul>
-                    </div>
+                    </section>
+
+                    <section className='location-section'>
+                      <HeaderBar innerText='Locations' />
+                        <ChooseForm choose='locations' baseurl={this.props.baseurl} userid={this.state.userid} alllocations={this.state.alllocations} postLocation={this.postLocation}/>
+                        <ul style={styles.skillsContainer}>
+                        {Object
+                          .keys(this.state.userlocation)
+                          .map(key => <ShowData choose='locations' key={key} userlocation={this.state.userlocation[key]}/>)
+                        }
+                      </ul>
+                    </section>
 
                     <HeaderBar innerText='Opportunities' />
                     <ol style={styles.opportunities}>

@@ -1,8 +1,7 @@
 import React from 'react';
 
-class HeaderBar extends React.Component {
+const HeaderBar = (props) => {
 
-  render() {
 
   const barStyle = {
     width: "100%",
@@ -14,12 +13,11 @@ class HeaderBar extends React.Component {
     textTransform: 'uppercase'
   }
 
-  let innerText = this.props.innerText;
+  let innerText = props.innerText;
 
   return (
     <h1 style={barStyle}>{innerText}</h1>
     )
   }
-}
 
 export default HeaderBar;
