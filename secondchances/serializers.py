@@ -25,9 +25,21 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class JobSerializer(serializers.ModelSerializer):
+   #  url = serializers.HyperlinkedIdentityField(
+   #     view_name='job',
+   # )
     class Meta:
         model = Job
-        fields = ('owner', 'title', 'description', 'created', 'location')
+        fields = ('id', 'owner', 'title', 'description', 'created', 'location')
+
+
+# class JobMatchSerializer(serializers.ModelSerializer):
+#     # url = serializers.HyperlinkedIdentityField(
+#     #     view_name='jobmatch',
+#     # )
+#     class Meta:
+#         model = Job
+#         fields = ('owner', 'title', 'description', 'created', 'location')
 
 
 class SkillsSerializer(serializers.ModelSerializer):
@@ -57,7 +69,7 @@ class LocationSerializer(serializers.ModelSerializer):
 class User_LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User_Location
-        fields = ('owner', 'location', 'location_string')
+        fields = ('id', 'owner', 'location', 'location_string')
 
 
 class NeedsSerializer(serializers.ModelSerializer):
@@ -69,25 +81,25 @@ class NeedsSerializer(serializers.ModelSerializer):
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
-        fields = ('owner', 'title', 'description', 'created', 'location')
+        fields = ('id', 'owner', 'title', 'description', 'created', 'location')
 
 
 class User_NeedsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Provided_Skill
-        fields = ('owner', 'need', 'need_string')
+        fields = ('id', 'owner', 'need', 'need_string')
 
 
 class Provided_NeedsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Provided_Needs
-        fields = ('owner', 'need', 'need_string')
+        fields = ('id', 'owner', 'need', 'need_string')
 
 
 class ConnectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Connection
-        fields = ('user_1', 'user_2', 'created')
+        fields = ('id', 'user_1', 'user_2', 'created')
 
 
 class ConversationSerializer(serializers.ModelSerializer):

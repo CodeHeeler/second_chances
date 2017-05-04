@@ -62,30 +62,52 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response({}, status=401)
 
 
-class JobViewSet(viewsets.ModelViewSet):
+
+class JobMatchViewSet(viewsets.ModelViewSet):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
 
     def get_queryset(self):
         try:
             jobs = []
-            user_id = self.kwargs['user_id']
+            # user_id = self.kwargs['user_id']
+            user_id = self.request.user.id
             user_profile = User_Profile.objects.get(user=user_id)
             provided_skills = Provided_Skill.objects.filter(owner=user_profile)
             required_skills = Required_Skill.objects.all()
             user_locations = User_Location.objects.filter(owner=user_profile)
+            # print("*** {} ***".format(len(user_locations)))
+
             for owned_skill in provided_skills:
                 for job_skill in required_skills:
                     if (owned_skill.skill == job_skill.skill):
+                        # print("\n*** Here I am ***\n")
+                        print("\n*** {} ***\n".format(len(user_locations)))
                         if len(user_locations) == 0:
+                            #  append job object
                             jobs.append(job_skill.owner)
+                            print("\n*** {} ***\n".format(jobs))
                         else:
                             for spot in user_locations:
                                 if str(job_skill.owner.location) == str(spot):
+                                    #  append job object
                                     jobs.append(job_skill.owner)
-            return jobs.sort(key=created, reverse=True)
+                                    print("\n*** {} ***\n".format(jobs))
+            # print(jobs.sort(key=created, reverse=True))
+            print("\n*** {} ***\n".format(jobs.sort(key=created, reverse=True)))
+            return jobs.sort(key='created', reverse=True)
         except:
+            print("*** something broke ****")
+            print("** In JobMatchViewSet **")
             return Job.objects.all()
+
+
+class JobViewSet(viewsets.ModelViewSet):
+    queryset = Job.objects.all()
+    serializer_class = JobSerializer
+
+    def get_queryset(self):
+        return Job.objects.all()
 
 
 
@@ -267,7 +289,7 @@ class UserFormView(View):
 
             if user:
                 if user.is_active:
-                    print("here I am")
+                    # print("here I am")
                     login(request, user)
                     userprofile = User_Profile(user_id=user.id, bio="Your Bio Goes Here")
                     userprofile.save()

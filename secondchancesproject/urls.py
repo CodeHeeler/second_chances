@@ -22,8 +22,11 @@ from django.contrib.auth import views as auth_views
 router = routers.DefaultRouter()
 router.register(r'user_profile', views.User_ProfileViewSet)
 router.register(r'user', views.UserViewSet)
-router.register(r'job/(?P<user_id>[0-9]+)', views.JobViewSet)
-router.register(r'job', views.JobViewSet)
+# router.register(r'job/(?P<user_id>[0-9]+)', views.JobViewSet)
+
+router.register(r'jobmatch', views.JobMatchViewSet, 'jobmatch')
+router.register(r'job', views.JobViewSet, 'job')
+
 router.register(r'location', views.LocationViewSet)
 router.register(r'userlocation/(?P<user_id>[0-9]+)', views.User_LocationViewSet)
 router.register(r'userlocation', views.User_LocationViewSet)
