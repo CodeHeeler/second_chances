@@ -5,6 +5,8 @@ import ProfileForm from './ProfileForm';
 import ChooseForm from './ChooseForm';
 import ShowData from './ShowData';
 import HeaderBar from './HeaderBar';
+import Post from './Post';
+
 
 import axios from 'axios';
 
@@ -28,7 +30,9 @@ class Profile extends Component {
       userskills: [],
       userlocation: [],
       allskills: [],
-      alllocations: []
+      alllocations: [],
+      alljobs: [],
+      userjobs: []
     }
   }
 
@@ -38,6 +42,7 @@ class Profile extends Component {
     this.getData('userskills');
     this.getData('alllocations');
     this.getData('allskills');
+    this.getData('userjobs');
   }
 
   getData(type) {
@@ -52,6 +57,8 @@ class Profile extends Component {
       url=`${this.props.baseurl}/api/location`;
     } else if (type === 'allskills') {
       url=`${this.props.baseurl}/api/skills`;
+    } else if (type === 'userjobs') {
+      url=`${this.props.baseurl}/api/job/${this.state.userid}`;
     }
 
     axios
@@ -90,7 +97,11 @@ class Profile extends Component {
           console.log('got alllocations');
           let alllocations = {alllocations: response.data.results};
           this.setState(alllocations);
-        } else {return};
+        } else if (type === 'userjobs') {
+          console.log('got userjobs');
+          let userjobs = {userjobs: response.data.results};
+          this.setState(userjobs);
+        }else {return};
     }).catch(function(error) {
         console.log(error);
     });
@@ -172,7 +183,7 @@ class Profile extends Component {
                     </div>
 
                     <section className='skills-section'>
-                      <HeaderBar innerText='Skills' />
+                      <HeaderBar innerText='my skills' />
                         <ChooseForm choose='skills' baseurl={this.props.baseurl} userid={this.state.userid} allskills={this.state.allskills} postSkill={this.postSkill}/>
                         <ul style={styles.skillsContainer}>
                         {Object
@@ -183,7 +194,7 @@ class Profile extends Component {
                     </section>
 
                     <section className='location-section'>
-                      <HeaderBar innerText='Locations' />
+                      <HeaderBar innerText='my locations' />
                         <ChooseForm choose='locations' baseurl={this.props.baseurl} userid={this.state.userid} alllocations={this.state.alllocations} postLocation={this.postLocation}/>
                         <ul style={styles.skillsContainer}>
                         {Object
@@ -193,15 +204,41 @@ class Profile extends Component {
                       </ul>
                     </section>
 
-                    <HeaderBar innerText='Opportunities' />
+                    <section className='post-section'>
+                      <HeaderBar innerText='Post a Job' />
+                      <Post baseurl={this.props.baseurl}/>
+                    </section>
+
+                    <section className='post-section'>
+                      <HeaderBar innerText='Jobs I have Posted' />
+                      <p>Bunch of jobs</p>
+                      <p>Bunch of jobs</p>
+                      <p>Bunch of jobs</p>
+                    </section>
+
+                    <section className='jobs-section'>
+                      <HeaderBar innerText='Jobs matched to me' />
+                      <ol style={styles.opportunities}>
+                        <li style={styles.opportunity}>This is an opportunity.</li>
+                        <li style={styles.opportunity}>This is an opportunity.</li>
+                        <li style={styles.opportunity}>This is an opportunity.</li>
+                        <li style={styles.opportunity}>This is an opportunity.</li>
+                        <li style={styles.opportunity}>This is an opportunity.</li>
+                        <li style={styles.opportunity}>This is an opportunity.</li>
+                      </ol>
+                    </section>
+
+                    <section className='alljobs-section'>
+                    <HeaderBar innerText='View all jobs' />
                     <ol style={styles.opportunities}>
-                        <li style={styles.opportunity}>This is an opportunity.</li>
-                        <li style={styles.opportunity}>This is an opportunity.</li>
-                        <li style={styles.opportunity}>This is an opportunity.</li>
-                        <li style={styles.opportunity}>This is an opportunity.</li>
-                        <li style={styles.opportunity}>This is an opportunity.</li>
-                        <li style={styles.opportunity}>This is an opportunity.</li>
+                      <li style={styles.opportunity}>This is an opportunity.</li>
+                      <li style={styles.opportunity}>This is an opportunity.</li>
+                      <li style={styles.opportunity}>This is an opportunity.</li>
+                      <li style={styles.opportunity}>This is an opportunity.</li>
+                      <li style={styles.opportunity}>This is an opportunity.</li>
+                      <li style={styles.opportunity}>This is an opportunity.</li>
                     </ol>
+                  </section>
 
                 </div>
 

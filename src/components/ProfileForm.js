@@ -69,9 +69,6 @@ class ProfileForm extends Component {
             },
             underlineFocusStyle: {
               borderColor: '#d9b310',
-            },
-            underlineStyle: {
-              // borderColor: '#999'
             }
         }
 
