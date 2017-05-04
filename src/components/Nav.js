@@ -1,9 +1,8 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {slide as Menu} from 'react-burger-menu';
 
-class Nav extends Component {
+const Nav = (props) => {
 
-    render() {
         const styles = {
             bmBurgerButton: {
                 position: 'fixed',
@@ -47,6 +46,5 @@ class Nav extends Component {
                 </Menu>
         );
     }
-}
 
 export default Nav;

@@ -1,10 +1,9 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Nav from './Nav'
 import logo from '../images/reEntrylogo_h.png'
 
-class Header extends Component {
+const Header = (props) => {
 
-    render() {
 
       const styles = {
         headerBar: {
@@ -24,6 +23,5 @@ class Header extends Component {
             </div>
         );
     }
-}
 
 export default Header;

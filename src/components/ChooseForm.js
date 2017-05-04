@@ -1,9 +1,19 @@
 import React from 'react';
 import AutoComplete from 'material-ui/AutoComplete';
-import axios from 'axios';
 
 
 class ChooseForm extends React.Component {
+
+  constructor() {
+    super();
+    this.makeData = this.makeData.bind(this);
+    this.displayPrompt = this.displayPrompt.bind(this);
+    this.handleUpdateInput = this.handleUpdateInput.bind(this);
+    this.state = {
+      hintText: '',
+      searchText: ''
+    }
+  }
 
   makeData(show) {
     let sourceObj;
@@ -12,65 +22,93 @@ class ChooseForm extends React.Component {
       sourceObj = this.props.allskills;
       for (let i in sourceObj) {
         arr.push(
-          {skill: sourceObj[i].skill,
+          {data: sourceObj[i].skill,
             id: sourceObj[i].id});
       }
     } else if (show==='locations') {
       sourceObj = this.props.alllocations;
-    }
-    console.log('the skills arr', show, arr);
-
-
+      for (let i in sourceObj) {
+        arr.push(
+          { data: sourceObj[i].city,
+            id: sourceObj[i].id});
+          }
+        }
     return arr;
   }
 
   displayPrompt(choose) {
     if (choose==='skills') {
       return 'What are your skills?'
-    } else if (choose==='location') {
+    } else if (choose==='locations') {
       return 'Where would you like to work?'
     };
   }
 
   handleUpdateInput = (dataSource) => {
-  let skill = {
-      owner: this.props.userid,
-      skill: dataSource.id
-  }
-  this.postSkill(skill);
-}
 
-postSkill(skill) {
-  axios({
-    method: 'POST',
-    url:`${this.props.baseurl}/api/providedskill/${this.props.userid}/`,
-    data: skill
-  }).then((response) => {
-    console.log('skillposted!!', response);
-  }).catch(function(error) {
-    console.log(error);
-  });
-}
+    this.setState({
+      hintText: `enter some more ${this.props.choose}`,
+      searchText: ''
+    });
+    if (this.props.choose==='skills') {
+      let skill = {
+        owner: this.props.userid,
+        skill: dataSource.id
+      };
+      this.props.postSkill(skill);
+    } else {
+      let location = {
+        owner: this.props.userid,
+        location: dataSource.id
+      };
+      this.props.postLocation(location);
+    }
+  }
+
+  setText() {
+    this.setState({
+      hintText: `enter some more ${this.props.choose}`,
+      searchText: ''
+    });
+  }
 
 render() {
 
   const autoData = this.makeData(this.props.choose);
   const dataSourceConfig = {
-    text: 'skill',
+    text: 'data',
     value: 'id'
   };
+
+  const styles = {
+      hintStyle: {
+        width: '100%',
+        textAlign: 'center',
+      },
+      underlineFocusStyle: {
+        borderColor: '#d9b310',
+      }
+  }
+
 
   return (
     <div>
     <form>
       <h2>{this.displayPrompt(this.props.choose)}</h2>
       <AutoComplete
-      floatingLabelText="Choose some options"
+      id={'chooseForm'}
       filter={AutoComplete.fuzzyFilter}
       openOnFocus={true}
       dataSource={autoData}
       dataSourceConfig={dataSourceConfig}
-      onNewRequest={this.handleUpdateInput.bind(this)}
+      onNewRequest={this.handleUpdateInput}
+      onUpdateInput={this.setText.bind(this)}
+      searchText={this.state.searchText}
+      hintText={this.state.hintText}
+      hintStyle={styles.hintStyle}
+      underlineFocusStyle={styles.underlineFocusStyle}
+      maxSearchResults={55}
+      menuProps={{maxHeight: 400}}
       />
       </form>
       </div>
