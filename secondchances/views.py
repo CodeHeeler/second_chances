@@ -30,7 +30,8 @@ class User_ProfileViewSet(viewsets.ModelViewSet):
         user_profile = User_Profile.objects.get(user=user_id)
         user = User.objects.get(id=self.request.user.id)
         login(self.request, user)
-        return list(user_profile)
+        user_profile = [user_profile]
+        return user_profile
 
     # def update(self, request, pk):
     #     profile = User_Profile.objects.get(user_id=20)
