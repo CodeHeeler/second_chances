@@ -16,12 +16,21 @@ from rest_framework.permissions import AllowAny
 from os import sys
 from django.db.models import Q
 from directmessages.apps import Inbox
+from directmessages.services import MessagingService
+
 
 
 class User_ProfileViewSet(viewsets.ModelViewSet):
     queryset = User_Profile.objects.all()
     serializer_class = User_ProfileSerializer
     permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        user_id = self.request.user.id
+        user_profile = User_Profile.objects.get(user=user_id)
+        user = User.objects.get(id=self.request.user)
+        login(self.request, user)
+        return user_profile
 
     # def update(self, request, pk):
     #     profile = User_Profile.objects.get(user_id=20)
@@ -360,11 +369,6 @@ def logout(request):
     return render(request, 'secondchances/')
 
 
-# def login(request, user):
-#     login(request, user)
-#     return render(request, 'secondchances/')
-
-
 def profile(request, user_id):
     userprofile = User_Profile.objects.get(user=request.user)
     context = {'userprofile': userprofile}
@@ -375,8 +379,11 @@ def profile(request, user_id):
 #     return HttpResponse('login')
 #
 
-def postings(request):
-    return render(request, '/Users/rebelmerf/class/final/second_chances/build/index.html', {})
+def conversations(request):
+    print("*** {} ***".format(request.user))
+    all_conversations = Inbox.get_conversations(request.user)
+    context = {'all_conversations': all_conversations}
+    return render(request, 'secondchances/conversations.html', context)
 
 
 def posting_detail(request, posting_id):

@@ -31,6 +31,9 @@ ALLOWED_HOSTS = ['arcane-hollows-70832.herokuapp.com',
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
+# LOGIN_REDIRECT_URL = '/secondchances/profile'
+
+
 # Application definition
 
 INSTALLED_APPS = [
