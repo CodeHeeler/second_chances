@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from .serializers import *
 from django.http import HttpResponse
 from django.views.generic import View  #
-from django.contrib.auth import authenticate, login  #
+from django.contrib.auth import authenticate, login, logout  #
 from .forms import UserForm  #
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import list_route
@@ -319,6 +319,11 @@ class UserFormView(View):
 
         # if not here is a blank form
         return render(request, self.template_name, {'form': form})
+
+
+def logout(request):
+    logout(request)
+    return render(request, 'secondchances/')
 
 
 def profile(request, user_id):

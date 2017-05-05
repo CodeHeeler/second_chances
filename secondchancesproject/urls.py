@@ -53,7 +53,7 @@ urlpatterns = [
     url(r'api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     # url(r'^login/', auth_views.login, name='login'),
-    # url(r'^logout/', auth_views.logout, name='logout'),
+    url(r'^logout/', auth_views.logout, name='logout'),
     url(r'^register/$', views.UserFormView.as_view(), name='register'),
     url(r'^secondchances/profile/(?P<user_id>[0-9]+)', views.profile, name='profile'),
     url(r'^secondchances/postings', views.postings),
