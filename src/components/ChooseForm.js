@@ -50,10 +50,13 @@ class ChooseForm extends React.Component {
       hintText: `enter some more ${this.props.choose}`,
       searchText: ''
     });
+
+    console.log(dataSource);
     if (this.props.choose==='skills') {
       let skill = {
         owner: this.props.userid,
-        skill: dataSource.id
+        skill: dataSource.id,
+        skill_string: dataSource.data
       };
       this.props.postSkill(skill);
     } else {
