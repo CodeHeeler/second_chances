@@ -5,10 +5,12 @@ import ProfileForm from './ProfileForm';
 import ChooseForm from './ChooseForm';
 import Chips from './Chips';
 import HeaderBar from './HeaderBar';
+import ShowJobs from './ShowJobs';
 import Post from './Post';
 
 let Panel = require('react-bootstrap').Panel;
 let Accordion = require('react-bootstrap').Accordion;
+
 
 
 import axios from 'axios';
@@ -49,6 +51,7 @@ class Profile extends Component {
     this.getData('alllocations');
     this.getData('allskills');
     this.getData('userjobs');
+    this.getData('alljobs');
   }
 
   getData(type) {
@@ -62,8 +65,10 @@ class Profile extends Component {
     } else if (type === 'alllocations') {
       url=`${this.props.baseurl}/api/location`;
     } else if (type === 'allskills') {
-      url=`${this.props.baseurl}/api/skills`;
+      url=`${this.props.baseurl}/api/skills/`;
     } else if (type === 'userjobs') {
+      url=`${this.props.baseurl}/api/jobmatch/`;
+    } else if (type === 'alljobs') {
       url=`${this.props.baseurl}/api/job/`;
     }
 
@@ -71,15 +76,15 @@ class Profile extends Component {
       .get(url).then((response) => {
 
         if (type === 'profile') {
-          console.log('got profile');
           let profile = {profile: response.data};
+          console.log('got profile:', profile);
           this.setState(profile);
           localStorage.setItem('firstname',profile.firstname);
           this.showProfileForm();
         } else if (type === 'userskills') {
           let skillObj = response.data.results;
+          console.log('got userskills:', skillObj);
           let arr = [];
-          console.log('got userskills', skillObj);
             for (let i in skillObj) {
               arr.push(
                 skillObj[i].skill_string);
@@ -88,8 +93,8 @@ class Profile extends Component {
           this.setState({alluserskills: skillObj});
           return;
         } else if (type === 'userlocation') {
-          console.log('got userlocation');
           let locationObj = response.data.results;
+          console.log('got userlocation:', locationObj);
           let arr = [];
             for (let i in locationObj) {
               arr.push(
@@ -97,18 +102,22 @@ class Profile extends Component {
             }
           this.setState({userlocation: arr});
         } else if (type === 'allskills'){
-          console.log('got allskills');
           let allskills = {allskills: response.data.results};
+          console.log('got allskills: ', allskills);
           this.setState(allskills);
         } else if (type === 'alllocations') {
-          console.log('got alllocations');
           let alllocations = {alllocations: response.data.results};
+          console.log('got alllocations: ', alllocations);
           this.setState(alllocations);
         } else if (type === 'userjobs') {
-          console.log('got userjobs');
           let userjobs = {userjobs: response.data.results};
+          console.log('got userjobs: ', userjobs);
           this.setState(userjobs);
-        }else {return};
+        } else if (type === 'alljobs') {
+          let alljobs = {alljobs: response.data.results};
+          console.log('got alljobs: ', alljobs);
+          this.setState(alljobs);
+        } else {return};
     }).catch(function(error) {
         console.log(error);
     });
@@ -237,6 +246,7 @@ class Profile extends Component {
                     </div>
 
                     <Accordion className='section-skills'>
+
                         <Panel header="My Skills" eventKey='1'>
                         <ChooseForm choose='skills' baseurl={this.props.baseurl} userid={this.state.userid} allskills={this.state.allskills} postSkill={this.postSkill}/>
                         <ul style={styles.skillsContainer}>
@@ -268,14 +278,9 @@ class Profile extends Component {
                     </Panel>
 
                     <Panel header="Jobs Matched To Me" eventKey='5'>
-                      <ol style={styles.opportunities}>
-                        <li style={styles.opportunity}>This is an opportunity.</li>
-                        <li style={styles.opportunity}>This is an opportunity.</li>
-                        <li style={styles.opportunity}>This is an opportunity.</li>
-                        <li style={styles.opportunity}>This is an opportunity.</li>
-                        <li style={styles.opportunity}>This is an opportunity.</li>
-                        <li style={styles.opportunity}>This is an opportunity.</li>
-                      </ol>
+                      <h3>You've matched {this.state.userjobs.length} jobs</h3>
+                        <p>Click a job to view details.</p>
+                        <ShowJobs jobs={this.state.userjobs} />
                     </Panel>
 
                     <Panel header="View All Jobs" eventKey='6'>

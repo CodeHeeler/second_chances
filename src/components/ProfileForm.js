@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React from 'react';
 import TextField from 'material-ui/TextField';
 import BtnSubmit from './BtnSubmit';
 import axios from 'axios';
 
 
-class ProfileForm extends Component {
+class ProfileForm extends React.Component {
 
     constructor() {
         super();

@@ -2,10 +2,12 @@ import React from 'react';
 import Chip from 'material-ui/Chip';
 
 
+
 class Chips extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.handleRequestDelete = this.handleRequestDelete.bind(this);
 		this.state = {
 			display: 'inherit',
 			margin: 4
@@ -14,6 +16,8 @@ class Chips extends React.Component {
 
 	handleRequestDelete() {
 	  console.log('You clicked the delete button.');
+
+
 
 		this.state.display === 'inherit' ?
 			this.setState({display: 'none'}) :
@@ -31,13 +35,10 @@ class Chips extends React.Component {
 
 			return (
 				<Chip
-					onRequestDelete={this.handleRequestDelete = this.handleRequestDelete.bind(this)}
+					onRequestDelete={this.handleRequestDelete}
 					style={this.state}>
 
-					{(this.props.choose==='skills')
-						? skill
-						: location
-					}
+					{(this.props.choose==='skills')? skill:location}
 
 				</Chip>
 
