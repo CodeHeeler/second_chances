@@ -20,6 +20,8 @@ class Profile extends Component {
     this.getData = this.getData.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.postSkill = this.postSkill.bind(this);
+    this.getId = this.getId.bind(this);
+    this.deleteChip = this.deleteChip.bind(this);
     this.postLocation = this.postLocation.bind(this);
     this.state = {
       profile: {
@@ -33,6 +35,7 @@ class Profile extends Component {
       userskills: [],
       userlocation: [],
       allskills: [],
+      alluserskills: [],
       alllocations: [],
       alljobs: [],
       userjobs: []
@@ -61,7 +64,7 @@ class Profile extends Component {
     } else if (type === 'allskills') {
       url=`${this.props.baseurl}/api/skills`;
     } else if (type === 'userjobs') {
-      url=`${this.props.baseurl}/api/job/${this.state.userid}`;
+      url=`${this.props.baseurl}/api/job/`;
     }
 
     axios
@@ -74,14 +77,15 @@ class Profile extends Component {
           localStorage.setItem('firstname',profile.firstname);
           this.showProfileForm();
         } else if (type === 'userskills') {
-          console.log('got userskills');
           let skillObj = response.data.results;
           let arr = [];
+          console.log('got userskills', skillObj);
             for (let i in skillObj) {
               arr.push(
                 skillObj[i].skill_string);
             }
           this.setState({userskills: arr});
+          this.setState({alluserskills: skillObj});
           return;
         } else if (type === 'userlocation') {
           console.log('got userlocation');
@@ -124,6 +128,7 @@ class Profile extends Component {
     }
   }
 
+
   postSkill(skill) {
     axios({
       method: 'POST',
@@ -145,6 +150,52 @@ class Profile extends Component {
     }).then((response) => {
       console.log('locationposted!!', response);
       this.getData('userlocation');
+    }).catch(function(error) {
+      console.log(error);
+    });
+  }
+
+  getId(chip, type) {
+    console.log('in getId', chip, type);
+    if (type === 'skill') {
+      let skills = this.state.alluserskills;
+      let selectedSkill = skills.find(function (skill) {
+        return skill.skill_string === chip
+      });
+      console.log('skill id match', selectedSkill);
+      selectedSkill ? this.deleteChip(selectedSkill, 'skills'):console.log('no match');
+    } else if (type ==='location') {
+      let locations = this.state.alllocations;
+      let shortcity = chip.substring(0, chip.length-4);
+      console.log('locations', locations);
+      let selectedLocation = locations.find(function (location) {
+        return location.city === shortcity
+      });
+      console.log('shortcity', shortcity);
+      console.log('location id match', selectedLocation);
+    } else {
+      console.log('what called the getId function???')
+    }
+  }
+
+  deleteChip(chip, type) {
+    console.log('in deleteChip');
+    let url;
+    let getdata;
+    if (type === 'skills') {
+      url = `${this.props.baseurl}/api/providedskill/${chip.id}/`;
+      getdata = 'userskills';
+    } else if (type === 'location') {
+      console.log('waiting on api refactor to enable location deletion');
+    } else {
+      console.log('how did you get in deleteChip??')
+    }
+    axios({
+      method: 'DELETE',
+      url: url,
+    }).then((response) => {
+      console.log('chip deleted!');
+      this.getData(getdata);
     }).catch(function(error) {
       console.log(error);
     });
@@ -191,7 +242,7 @@ class Profile extends Component {
                         <ul style={styles.skillsContainer}>
                           {Object
                             .keys(this.state.userskills)
-                            .map(key => <Chips choose='skills' key={key} userskill={this.state.userskills[key]}/>)
+                            .map(key => <Chips choose='skills' key={key} userskill={this.state.userskills[key]} getId={this.getId}/>)
                           }
                         </ul>
                       </Panel>
@@ -201,7 +252,7 @@ class Profile extends Component {
                         <ul style={styles.skillsContainer}>
                         {Object
                           .keys(this.state.userlocation)
-                          .map(key => <Chips choose='locations' key={key} userlocation={this.state.userlocation[key]}/>)
+                          .map(key => <Chips choose='locations' key={key} userlocation={this.state.userlocation[key]} getId={this.getId}/>)
                         }
                       </ul>
                     </Panel>
