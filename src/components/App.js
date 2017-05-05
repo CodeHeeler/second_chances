@@ -18,8 +18,8 @@ class App extends Component {
       this.state = {
           username: '',
           userid: null,
-          // baseurl: 'http://127.0.0.1'
-          baseurl: 'http://arcane-hollows-70832.herokuapp.com'
+          baseurl: 'http://127.0.0.1'
+          // baseurl: 'http://arcane-hollows-70832.herokuapp.com'
       };
   }
 

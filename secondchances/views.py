@@ -68,6 +68,12 @@ class JobMatchViewSet(viewsets.ModelViewSet):
     serializer_class = JobSerializer
 
     def get_queryset(self):
+        """
+            This will return all job matches for a user based first on whether
+            any one of their provided skills matches any one of the of job's
+            required skills and then secondarily on whether the locations
+            they are willing to work includes the job location
+        """
         try:
             jobs = []
             # user_id = self.kwargs['user_id']
@@ -76,7 +82,8 @@ class JobMatchViewSet(viewsets.ModelViewSet):
             provided_skills = Provided_Skill.objects.filter(owner=user_profile)
             required_skills = Required_Skill.objects.all()
             user_locations = User_Location.objects.filter(owner=user_profile)
-            # print("*** {} ***".format(len(user_locations)))
+
+            print("*** {}  in Try block***".format(len(user_locations)))
 
             for owned_skill in provided_skills:
                 for job_skill in required_skills:
@@ -86,16 +93,22 @@ class JobMatchViewSet(viewsets.ModelViewSet):
                         if len(user_locations) == 0:
                             #  append job object
                             jobs.append(job_skill.owner)
-                            print("\n*** {} ***\n".format(jobs))
+
                         else:
+                            print("\n*** INSIDE ELSE ***\n")
+
                             for spot in user_locations:
+                                print(spot)
+                                print(str(job_skill.owner.location) == str(spot))
+
                                 if str(job_skill.owner.location) == str(spot):
                                     #  append job object
                                     jobs.append(job_skill.owner)
                                     print("\n*** {} ***\n".format(jobs))
-            # print(jobs.sort(key=created, reverse=True))
-            print("\n*** {} ***\n".format(jobs.sort(key=created, reverse=True)))
-            return jobs.sort(key='created', reverse=True)
+
+            sorted_jobs = sorted(jobs, key=lambda x: x.created, reverse=True)
+            return sorted_jobs
+
         except:
             print("*** something broke ****")
             print("** In JobMatchViewSet **")
@@ -109,6 +122,15 @@ class JobViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Job.objects.all()
 
+
+class OwnedJobViewSet(viewsets.ModelViewSet):
+    queryset = Job.objects.all()
+    serializer_class = JobSerializer
+
+    def get_queryset(self):
+        user_id = self.request.user.id
+        user_profile = User_Profile.objects.get(user=user_id)
+        return Job.objects.filter(owner=user_profile)
 
 
 class SkillsViewSet(viewsets.ModelViewSet):
