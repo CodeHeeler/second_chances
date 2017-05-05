@@ -15,6 +15,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from os import sys
 from django.db.models import Q
+from directmessages.apps import Inbox
+
 
 class User_ProfileViewSet(viewsets.ModelViewSet):
     queryset = User_Profile.objects.all()
@@ -271,14 +273,46 @@ class ConnectionViewSet(viewsets.ModelViewSet):
     serializer_class = ConnectionSerializer
 
 
-class ConversationViewSet(viewsets.ModelViewSet):
-    queryset = Conversation.objects.all()
-    serializer_class = ConversationSerializer
-
-
 class MessageViewSet(viewsets.ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
+
+    def get_queryset(self):
+        user_id = self.request.user.id
+        user_profile = User_Profile.objects.get(user=user_id)
+        return self.queryset.filter(Q(sender=user_profile.user) | Q(recipient=user_profile.user))
+
+    def list(self, request):
+        user_id = self.request.user.id
+        user_profile = User_Profile.objects.get(user=user_id)
+        queryset = Message.objects.all().filter(Q(sender=user_profile.user) | Q(recipient=user_profile.user))
+        serializer = MessageSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class ConversationViewSet(viewsets.ModelViewSet):
+
+    queryset = Message.objects.all()
+    # queryset =  Message.objects.all().filter(Q(sender=request.user) | Q(recipient=request.user))
+    serializer_class = ConversationSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        user_id = self.request.user.id
+        user_profile = User_Profile.objects.get(user=user_id)
+        all_conversations = self.queryset.filter(Q(sender=user_profile.user) | Q(recipient=user_profile.user))
+        contacts = []
+        for conversation in all_conversations:
+            if conversation.sender.id != self.request.user.id:
+                contacts.append(conversation.sender)
+            elif conversation.recipient != self.request.user:
+                contacts.append(conversation.recipient)
+
+        # To abolish duplicates
+        # This sends a list... Can you make it a filtered queryset?
+        # return list(set(contacts))
+
+        return self.queryset.filter(Q(sender=self.request.user) | Q(recipient=self.request.user))
 
 
 class UserFormView(View):
@@ -324,6 +358,11 @@ class UserFormView(View):
 def logout(request):
     logout(request)
     return render(request, 'secondchances/')
+
+
+# def login(request, user):
+#     login(request, user)
+#     return render(request, 'secondchances/')
 
 
 def profile(request, user_id):

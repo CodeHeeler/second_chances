@@ -122,16 +122,16 @@ class Connection(models.Model):
     created = models.DateTimeField(auto_now=True)
 
 
-class Conversation(models.Model):
-    from_user = models.ForeignKey(User_Profile, related_name='Conversation_from_user')
-    to_user = models.ForeignKey(User_Profile, related_name='Conversation_to_user')
-    created = models.DateTimeField(auto_now=True)
-
-
-class Message(models.Model):
-    conversation = models.ForeignKey(Conversation)
-    text_body = models.TextField()
-    created = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.text_body[:50]
+# class Conversation(models.Model):
+#     from_user = models.ForeignKey(User_Profile, related_name='Conversation_from_user')
+#     to_user = models.ForeignKey(User_Profile, related_name='Conversation_to_user')
+#     created = models.DateTimeField(auto_now=True)
+#
+#
+# class Message(models.Model):
+#     conversation = models.ForeignKey(Conversation)
+#     text_body = models.TextField()
+#     created = models.DateTimeField(auto_now=True)
+#
+#     def __str__(self):
+#         return self.text_body[:50]

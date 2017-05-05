@@ -34,6 +34,7 @@ CORS_ALLOW_CREDENTIALS = True
 # Application definition
 
 INSTALLED_APPS = [
+    'directmessages',
     'corsheaders',
     'rest_framework',
     'secondchances.apps.SecondchancesConfig',

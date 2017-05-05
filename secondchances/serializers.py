@@ -1,6 +1,10 @@
 from rest_framework import serializers
 from .models import *
 
+from directmessages.apps import Inbox
+from directmessages.models import Message
+from directmessages.services import MessagingService
+
 
 class User_ProfileSerializer(serializers.ModelSerializer):
     # user = serializers.PrimaryKeyRelatedField(many=False, read_only=False)
@@ -102,13 +106,13 @@ class ConnectionSerializer(serializers.ModelSerializer):
         fields = ('id', 'user_1', 'user_2', 'created')
 
 
-class ConversationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Conversation
-        fields = ('from_user', 'to_user', 'created')
-
-
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Conversation
-        fields = ('conversation', 'text_body', 'created')
+        model = Message
+        fields = ('id', 'sender', 'recipient', 'content', 'sent_at', 'read_at')
+
+
+class ConversationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = ('sender', 'recipient')
