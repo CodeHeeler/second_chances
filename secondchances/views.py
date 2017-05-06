@@ -31,7 +31,9 @@ class User_ProfileViewSet(viewsets.ModelViewSet):
         user_profile = User_Profile.objects.get(user=user_id)
         user = User.objects.get(id=user_id)
         login(self.request, user)
-        return user_profile
+        user_profile_list = []
+        user_profile_list.append(user_profile)
+        return user_profile_list
 
     # def update(self, request, pk):
     #     profile = User_Profile.objects.get(user_id=20)
