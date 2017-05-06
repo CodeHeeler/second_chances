@@ -26,9 +26,10 @@ class User_ProfileViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        user_id = self.request.user.id
+        user_id = self.kwargs['user_id']
+        # user_id = self.request.user.id
         user_profile = User_Profile.objects.get(user=user_id)
-        user = User.objects.get(id=self.request.user.id)
+        user = User.objects.get(id=user_id)
         login(self.request, user)
         user_profile = [user_profile]
         return user_profile
