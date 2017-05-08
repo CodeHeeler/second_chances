@@ -67,7 +67,7 @@ class Required_SkillSerializer(serializers.ModelSerializer):
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
-        fields = ('id', 'city', 'state')
+        fields = ('id', 'city', 'state', 'location_string')
 
 
 class User_LocationSerializer(serializers.ModelSerializer):
