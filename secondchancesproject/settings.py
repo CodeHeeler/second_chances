@@ -26,7 +26,8 @@ CSRF_COOKIE_NAME = 'XCSRF-TOKEN'
 DEBUG = True
 
 ALLOWED_HOSTS = ['arcane-hollows-70832.herokuapp.com',
-                '127.0.0.1']
+                '127.0.0.1', 'reentry.herokuapp.com']
+
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
@@ -95,7 +96,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'secondchances',
-        'USER': 'rebelmerf',
+        'USER': 'vallyrehyers',
         'PASSWORD': '',
         'HOST': '127.0.0.1',
         'PORT': '5432',
