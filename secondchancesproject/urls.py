@@ -25,6 +25,7 @@ router.register(r'user_profile', views.User_ProfileViewSet)
 router.register(r'user', views.UserViewSet)
 # router.register(r'job/(?P<user_id>[0-9]+)', views.JobViewSet)
 
+router.register(r'jobmatch/(?P<user_id>[0-9]+)', views.JobMatchViewSet, 'jobmatch')
 router.register(r'jobmatch', views.JobMatchViewSet, 'jobmatch')
 router.register(r'job', views.JobViewSet, 'job')
 router.register(r'ownedjob', views.OwnedJobViewSet, 'ownedjob')

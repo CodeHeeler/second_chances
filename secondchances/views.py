@@ -28,7 +28,7 @@ class User_ProfileViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user_id = self.kwargs['user_id']
         # user_id = self.request.user.id
-        user_profile = User_Profile.objects.filter(user=user_id)
+        user_profile = User_Profile.objects.get(user=user_id)
         # user = User.objects.get(id=user_id)
         # login(request, user)
         # user_profile_list = []
@@ -90,8 +90,8 @@ class JobMatchViewSet(viewsets.ModelViewSet):
         """
         try:
             jobs = []
-            # user_id = self.kwargs['user_id']
-            user_id = self.request.user.id
+            user_id = self.kwargs['user_id']
+            # user_id = self.request.user.id
             user_profile = User_Profile.objects.get(user=user_id)
             provided_skills = Provided_Skill.objects.filter(owner=user_profile)
             required_skills = Required_Skill.objects.all()
@@ -142,7 +142,8 @@ class OwnedJobViewSet(viewsets.ModelViewSet):
     serializer_class = JobSerializer
 
     def get_queryset(self):
-        user_id = self.request.user.id
+        user_id = self.kwargs['user_id']
+        # user_id = self.request.user.id
         user_profile = User_Profile.objects.get(user=user_id)
         return Job.objects.filter(owner=user_profile)
 
@@ -159,8 +160,8 @@ class Provided_SkillViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         try:
-            # user_id = self.kwargs['user_id']
-            user_id = self.request.user.id
+            user_id = self.kwargs['user_id']
+            # user_id = self.request.user.id
             user_profile = User_Profile.objects.get(user=user_id)
             # provided_skill = user_profile.provided_skill_set.all()
             provided_skills = Provided_Skill.objects.filter(owner=user_profile)
