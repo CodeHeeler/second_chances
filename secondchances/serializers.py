@@ -90,7 +90,7 @@ class ServiceSerializer(serializers.ModelSerializer):
 
 class User_NeedsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Provided_Skill
+        model = User_Needs
         fields = ('id', 'owner', 'need', 'need_string')
 
 
