@@ -179,6 +179,11 @@ class Provided_SkillViewSet(viewsets.ModelViewSet):
             return Provided_Skill.objects.all()
 
 
+class Required_SkillBaseViewSet(viewsets.ModelViewSet):
+    queryset = Required_Skill.objects.all()
+    serializer_class = Required_SkillSerializer
+
+
 class Required_SkillViewSet(viewsets.ModelViewSet):
     queryset = Required_Skill.objects.all()
     serializer_class = Required_SkillSerializer
