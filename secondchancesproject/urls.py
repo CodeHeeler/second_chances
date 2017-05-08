@@ -20,12 +20,29 @@ from rest_framework import routers
 from django.contrib.auth import views as auth_views
 
 router = routers.DefaultRouter()
+router.register(r'user_profile/(?P<user_id>[0-9]+)', views.User_ProfileViewSet)
 router.register(r'user_profile', views.User_ProfileViewSet)
 router.register(r'user', views.UserViewSet)
-router.register(r'job', views.JobViewSet)
+# router.register(r'job/(?P<user_id>[0-9]+)', views.JobViewSet)
+
+router.register(r'jobmatch', views.JobMatchViewSet, 'jobmatch')
+router.register(r'job', views.JobViewSet, 'job')
+router.register(r'ownedjob', views.OwnedJobViewSet, 'ownedjob')
+router.register(r'location', views.LocationViewSet)
+router.register(r'userlocation/(?P<user_id>[0-9]+)', views.User_LocationViewSet)
+router.register(r'userlocation', views.User_LocationViewSet)
 router.register(r'skills', views.SkillsViewSet)
+# router.register(r'providedskill/(?P<user_id>[0-9]+)', views.Provided_SkillViewSet)
 router.register(r'providedskill', views.Provided_SkillViewSet)
+router.register(r'requiredskill/(?P<job_id>[0-9]+)', views.Required_SkillViewSet)
 router.register(r'requiredskill', views.Required_SkillViewSet)
+router.register(r'userneeds/(?P<user_id>[0-9]+)', views.User_NeedsViewSet)
+router.register(r'userneeds', views.User_NeedsViewSet)
+router.register(r'providedneeds/(?P<service_id>[0-9]+)', views.Provided_NeedsViewSet)
+router.register(r'providedneeds', views.Provided_NeedsViewSet)
+router.register(r'needs', views.NeedsViewSet)
+router.register(r'service/(?P<user_id>[0-9]+)', views.ServiceViewSet)
+router.register(r'service', views.ServiceViewSet)
 router.register(r'connection', views.ConnectionViewSet)
 router.register(r'conversation', views.ConversationViewSet)
 router.register(r'message', views.MessageViewSet)
@@ -37,14 +54,15 @@ urlpatterns = [
     url(r'api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     # url(r'^login/', auth_views.login, name='login'),
-    # url(r'^logout/', auth_views.logout, name='logout'),
+    url(r'^logout/', auth_views.logout, name='logout'),
     url(r'^register/$', views.UserFormView.as_view(), name='register'),
     url(r'^secondchances/profile/(?P<user_id>[0-9]+)', views.profile, name='profile'),
-    url(r'^secondchances/postings', views.postings),
-    url(r'^secondchances/postings/(?P<user_id>[0-9]+)/search', views.posting_search),
-    url(r'^secondchances/postings/(?P<posting_id>[0-9]+)', views.posting_detail),
+    # url(r'^secondchances/postings', views.postings),
+    # url(r'^secondchances/postings/(?P<user_id>[0-9]+)/search', views.posting_search),
+    # url(r'^secondchances/postings/(?P<posting_id>[0-9]+)', views.posting_detail),
     url(r'^secondchances/messages', views.messages),
-    url(r'^secondchances/messages/(?P<conversation_id>[0-9]+)', views.message_detail),
+    url(r'^secondchances/conversations', views.conversations),
+    # url(r'^secondchances/messages/(?P<conversation_id>[0-9]+)', views.message_detail),
     url(r'^secondchances/myskills/(?P<user_id>[0-9]+)', views.myskills),
     url(r'^admin/', admin.site.urls),
 ]

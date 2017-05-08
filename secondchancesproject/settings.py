@@ -32,9 +32,13 @@ ALLOWED_HOSTS = ['arcane-hollows-70832.herokuapp.com',
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
+# LOGIN_REDIRECT_URL = '/secondchances/profile'
+
+
 # Application definition
 
 INSTALLED_APPS = [
+    'directmessages',
     'corsheaders',
     'rest_framework',
     'secondchances.apps.SecondchancesConfig',
@@ -50,7 +54,7 @@ REST_FRAMEWORK = {
     # 'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
     'SAFE_METHODS': ('GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'),
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 100,
 }
 
 MIDDLEWARE = [
