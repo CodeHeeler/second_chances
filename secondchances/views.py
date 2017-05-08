@@ -133,8 +133,6 @@ class JobViewSet(viewsets.ModelViewSet):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
 
-    def get_queryset(self):
-        return Job.objects.all()
 
 
 class OwnedJobViewSet(viewsets.ModelViewSet):

@@ -18,6 +18,7 @@ class User_Profile(models.Model):
 class Location(models.Model):
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=2)
+    location_string = models.CharField(max_length=54, null=True)
 
     def __str__(self):
         return self.city + ", " + self.state
