@@ -18,8 +18,7 @@ class App extends Component {
       this.state = {
           username: '',
           userid: null,
-          // baseurl: 'http://127.0.0.1'
-          baseurl: 'http://arcane-hollows-70832.herokuapp.com'
+          baseurl: `https://${window.location.host}`
       };
   }
 
@@ -32,6 +31,7 @@ class App extends Component {
         username: user.username,
         password: user.password
       },
+
       data: user
     }).then((response) => {
       console.log(response);

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import TextField from 'material-ui/TextField';
 import BtnSubmit from './BtnSubmit';
+import DjangoCSRFToken from 'django-react-csrftoken';
 
 class LoginForm extends Component {
 
@@ -24,7 +25,7 @@ class LoginForm extends Component {
     }
     let url = '';
     if (type==='login') {
-      url=`${this.props.baseurl}/api/user/login/`;
+      url=`${this.props.baseurl}/api-auth/login/`;
   } else if (type==='create') {
       url=`${this.props.baseurl}/api/user/`;
   } else {
@@ -97,6 +98,7 @@ class LoginForm extends Component {
           underlineFocusStyle={styles.underlineFocusStyle}
           required
           />
+        <DjangoCSRFToken/>
         <div style={styles.buttons}>
           <div style={styles.invalid} id='errorMsg'></div>
           <BtnSubmit
