@@ -201,6 +201,11 @@ class LocationViewSet(viewsets.ModelViewSet):
     serializer_class = LocationSerializer
 
 
+class User_LocationBaseViewSet(viewsets.ModelViewSet):
+    queryset = User_Location.objects.all()
+    serializer_class = User_LocationSerializer
+
+
 class User_LocationViewSet(viewsets.ModelViewSet):
     queryset = User_Location.objects.all()
     # queryset = Provided_Skill.objects.filter(owner=user_id)
@@ -248,6 +253,11 @@ class ServiceViewSet(viewsets.ModelViewSet):
 class NeedsViewSet(viewsets.ModelViewSet):
     queryset = Needs.objects.all()
     serializer_class = NeedsSerializer
+
+
+class User_NeedsBaseViewSet(viewsets.ModelViewSet):
+    queryset = User_Needs.objects.all()
+    serializer_class = User_NeedsSerializer
 
 
 class User_NeedsViewSet(viewsets.ModelViewSet):
