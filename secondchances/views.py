@@ -25,15 +25,15 @@ class User_ProfileViewSet(viewsets.ModelViewSet):
     serializer_class = User_ProfileSerializer
     permission_classes = [AllowAny]
 
-    def get_queryset(self):
-        user_id = self.kwargs['user_id']
-        # user_id = self.request.user.id
-        user_profile = User_Profile.objects.get(user=user_id)
-        # user = User.objects.get(id=user_id)
-        # login(request, user)
-        # user_profile_list = []
-        # user_profile_list.append(user_profile)
-        return user_profile
+    # def get_queryset(self):
+    #     user_id = self.kwargs['user_id']
+    #     # user_id = self.request.user.id
+    #     user_profile = User_Profile.objects.get(user=user_id)
+    #     # user = User.objects.get(id=user_id)
+    #     # login(request, user)
+    #     # user_profile_list = []
+    #     # user_profile_list.append(user_profile)
+    #     return user_profile
 
     # def update(self, request, pk):
     #     profile = User_Profile.objects.get(user_id=20)

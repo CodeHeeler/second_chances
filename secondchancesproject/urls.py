@@ -20,7 +20,7 @@ from rest_framework import routers
 from django.contrib.auth import views as auth_views
 
 router = routers.DefaultRouter()
-router.register(r'user_profile/(?P<user_id>[0-9]+)', views.User_ProfileViewSet)
+# router.register(r'user_profile/(?P<user_id>[0-9]+)', views.User_ProfileViewSet)
 router.register(r'user_profile', views.User_ProfileViewSet)
 router.register(r'user', views.UserViewSet)
 # router.register(r'job/(?P<user_id>[0-9]+)', views.JobViewSet)
