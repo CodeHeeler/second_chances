@@ -8,40 +8,53 @@ class Chips extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleRequestDelete = this.handleRequestDelete.bind(this);
+		this.renderChip = this.renderChip.bind(this);
 		this.state = {
-			display: 'inherit',
-			margin: 4
-		}
+		};
+		this.styles = {
+			chip: {
+				margin: 4,
+			},
+			wrapper: {
+				display: 'flex',
+				flexWrap: 'wrap',
+				justifyContent: 'center'
+			},
+		};
 	}
 
-	handleRequestDelete() {
+
+
+	handleRequestDelete = (key) => {
 	  console.log('You clicked the delete button.');
 
-
-
-		this.state.display === 'inherit' ?
-			this.setState({display: 'none'}) :
-			this.setState({display: 'inherit'});
-
-		this.props.choose === 'skills' ?
-			this.props.getId(this.props.userskill, "skill") :
-			this.props.getId(this.props.userlocation, "location");
+		this.chipData = this.props.chipData;
+		const chipToDelete = this.chipData.map((chip) => chip.key).indexOf(key);
+		this.chipData.splice(chipToDelete, 1);
+		this.setState({chipData: this.chipData});
+		this.props.deleteChip(key, this.props.choose);
 	}
 
-		render() {
-
-			const skill = this.props.userskill;
-			const location = this.props.userlocation;
+		renderChip(data) {
 
 			return (
 				<Chip
-					onRequestDelete={this.handleRequestDelete}
-					style={this.state}>
+					key={data.key}
+					onRequestDelete={() => this.handleRequestDelete(data.key)}
+					style={this.styles.chip}
+				>
+				{data.label}
+			</Chip>
 
-					{(this.props.choose==='skills')? skill:location}
+			);
+		}
 
-				</Chip>
+		render() {
 
+			return(
+				<div style={this.styles.wrapper}>
+					{this.props.chipData.map(this.renderChip, this)}
+				</div>
 			);
 		}
 	}

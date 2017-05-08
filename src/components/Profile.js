@@ -34,24 +34,25 @@ class Profile extends Component {
       },
       // userid: 1,
       userid: localStorage.getItem("userID"),
-      userskills: [],
-      userlocation: [],
+      userlocations: [],
       allskills: [],
-      alluserskills: [],
+      userskills: [],
       alllocations: [],
       alljobs: [],
-      userjobs: []
+      userjobs: [],
+      myjobs: []
     }
   }
 
   componentDidMount() {
     this.getData('profile');
-    this.getData('userlocation');
+    this.getData('userlocations');
     this.getData('userskills');
     this.getData('alllocations');
     this.getData('allskills');
     this.getData('userjobs');
     this.getData('alljobs');
+    this.getData('myjobs');
   }
 
   getData(type) {
@@ -60,47 +61,48 @@ class Profile extends Component {
       url=`${this.props.baseurl}/api/user_profile/${this.state.userid}/`;
     } else if (type === 'userskills') {
       url=`${this.props.baseurl}/api/providedskill/`;
-    } else if (type === 'userlocation') {
-      url=`${this.props.baseurl}/api/userlocation/${this.state.userid}`;
+    } else if (type === 'userlocations') {
+      url=`${this.props.baseurl}/api/userlocation/${this.state.userid}/`;
     } else if (type === 'alllocations') {
-      url=`${this.props.baseurl}/api/location`;
+      url=`${this.props.baseurl}/api/location/`;
     } else if (type === 'allskills') {
       url=`${this.props.baseurl}/api/skills/`;
     } else if (type === 'userjobs') {
       url=`${this.props.baseurl}/api/jobmatch/`;
     } else if (type === 'alljobs') {
       url=`${this.props.baseurl}/api/job/`;
+    } else if (type === 'myjobs') {
+      url=`${this.props.baseurl}/api/ownedjob/`;
     }
 
     axios
       .get(url).then((response) => {
 
         if (type === 'profile') {
-          let profile = {profile: response.data};
+          let profile = {profile: response.data.results[0]};
           console.log('got profile:', profile);
           this.setState(profile);
           localStorage.setItem('firstname',profile.firstname);
           this.showProfileForm();
         } else if (type === 'userskills') {
-          let skillObj = response.data.results;
-          console.log('got userskills:', skillObj);
-          let arr = [];
-            for (let i in skillObj) {
-              arr.push(
-                skillObj[i].skill_string);
-            }
-          this.setState({userskills: arr});
-          this.setState({alluserskills: skillObj});
+          let thing = response.data.results;
+          console.log('got userskills:', thing);
+          let skills=[];
+          for (let i in thing) {
+            skills.push({"key":thing[i].id, "label": thing[i].skill_string});
+          };
+          console.log('skills: ', skills);
+          this.setState({userskills: skills});
           return;
-        } else if (type === 'userlocation') {
-          let locationObj = response.data.results;
-          console.log('got userlocation:', locationObj);
-          let arr = [];
-            for (let i in locationObj) {
-              arr.push(
-                locationObj[i].location_string);
-            }
-          this.setState({userlocation: arr});
+        } else if (type === 'userlocations') {
+          let thing = response.data.results;
+          console.log('got userlocation:', thing);
+          let locations=[];
+          for (let i in thing) {
+            locations.push({"key":thing[i].id, "label": thing[i].location_string});
+          };
+          console.log('locations: ', locations);
+          this.setState({userlocations: locations});
         } else if (type === 'allskills'){
           let allskills = {allskills: response.data.results};
           console.log('got allskills: ', allskills);
@@ -117,6 +119,10 @@ class Profile extends Component {
           let alljobs = {alljobs: response.data.results};
           console.log('got alljobs: ', alljobs);
           this.setState(alljobs);
+        } else if (type === 'myjobs') {
+          let myjobs = {myjobs: response.data.results};
+          console.log('got myjobs: ', myjobs);
+          this.setState(myjobs);
         } else {return};
     }).catch(function(error) {
         console.log(error);
@@ -158,7 +164,7 @@ class Profile extends Component {
       data: location
     }).then((response) => {
       console.log('locationposted!!', response);
-      this.getData('userlocation');
+      this.getData('userlocations');
     }).catch(function(error) {
       console.log(error);
     });
@@ -192,9 +198,9 @@ class Profile extends Component {
     let url;
     let getdata;
     if (type === 'skills') {
-      url = `${this.props.baseurl}/api/providedskill/${chip.id}/`;
+      url = `${this.props.baseurl}/api/providedskill/${chip}/`;
       getdata = 'userskills';
-    } else if (type === 'location') {
+    } else if (type === 'locations') {
       console.log('waiting on api refactor to enable location deletion');
     } else {
       console.log('how did you get in deleteChip??')
@@ -217,7 +223,7 @@ class Profile extends Component {
             profileBody: {
                 backgroundColor: '#ccc'
             },
-            skillsContainer: {
+            chipsContainer: {
                 display: 'flex',
                 flexWrap: 'wrap',
                 justifyContent: 'center',
@@ -249,32 +255,21 @@ class Profile extends Component {
 
                         <Panel header="My Skills" eventKey='1'>
                         <ChooseForm choose='skills' baseurl={this.props.baseurl} userid={this.state.userid} allskills={this.state.allskills} postSkill={this.postSkill}/>
-                        <ul style={styles.skillsContainer}>
-                          {Object
-                            .keys(this.state.userskills)
-                            .map(key => <Chips choose='skills' key={key} userskill={this.state.userskills[key]} getId={this.getId}/>)
-                          }
-                        </ul>
+                          <Chips chipData={this.state.userskills} choose='skills' deleteChip={this.deleteChip} />
                       </Panel>
 
                       <Panel header="My Locations" eventKey='2'>
                         <ChooseForm choose='locations' baseurl={this.props.baseurl} userid={this.state.userid} alllocations={this.state.alllocations} postLocation={this.postLocation}/>
-                        <ul style={styles.skillsContainer}>
-                        {Object
-                          .keys(this.state.userlocation)
-                          .map(key => <Chips choose='locations' key={key} userlocation={this.state.userlocation[key]} getId={this.getId}/>)
-                        }
-                      </ul>
+                        <Chips chipData={this.state.userlocations} choose='locations' deleteChip={this.deleteChip} />
+
                     </Panel>
 
                     <Panel header="Post A Job" eventKey='3'>
-                      <Post baseurl={this.props.baseurl}/>
+                      <Post baseurl={this.props.baseurl} allskills={this.state.allskills}/>
                     </Panel>
 
                     <Panel header="Jobs I've Posted" eventKey='4'>
-                      <p>Bunch of jobs</p>
-                      <p>Bunch of jobs</p>
-                      <p>Bunch of jobs</p>
+                      <ShowJobs jobs={this.state.myjobs} />
                     </Panel>
 
                     <Panel header="Jobs Matched To Me" eventKey='5'>
@@ -284,14 +279,7 @@ class Profile extends Component {
                     </Panel>
 
                     <Panel header="View All Jobs" eventKey='6'>
-                    <ol style={styles.opportunities}>
-                      <li style={styles.opportunity}>This is an opportunity.</li>
-                      <li style={styles.opportunity}>This is an opportunity.</li>
-                      <li style={styles.opportunity}>This is an opportunity.</li>
-                      <li style={styles.opportunity}>This is an opportunity.</li>
-                      <li style={styles.opportunity}>This is an opportunity.</li>
-                      <li style={styles.opportunity}>This is an opportunity.</li>
-                    </ol>
+                    <ShowJobs jobs={this.state.alljobs} />
                   </Panel>
 
                   <Panel header='Messages' eventKey='7'>

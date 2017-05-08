@@ -8,7 +8,7 @@ class ProfileData extends Component {
         let firstInitial = firstArr[0];
         let secondArr = (last).toLowerCase().split('');
         let secondInitial = secondArr[0];
-        let initials = [firstInitial, secondInitial];
+        let initials = [`${firstInitial}${secondInitial}`];
 
         return (
             <p className='initials'>{initials}</p>

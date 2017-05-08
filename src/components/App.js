@@ -24,13 +24,13 @@ class App extends Component {
   }
 
   setUser(user, url) {
-    console.log('in setUser');
+    console.log('in setUser: ', user, url);
     axios({
       method: 'post',
       url: url,
       auth: {
-        username: 'admin',
-        password: 'mypassword'
+        username: user.username,
+        password: user.password
       },
       data: user
     }).then((response) => {
