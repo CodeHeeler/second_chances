@@ -143,7 +143,6 @@ class OwnedJobViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user_id = self.kwargs['user_id']
-        # user_id = self.request.user.id
         user_profile = User_Profile.objects.get(user=user_id)
         return Job.objects.filter(owner=user_profile)
 
