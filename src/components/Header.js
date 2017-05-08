@@ -1,14 +1,15 @@
-import React, {Component} from 'react';
-import Nav from './Nav'
+import React from 'react';
 import logo from '../images/reEntrylogo_h.png'
 
-class Header extends Component {
+const Header = (props) => {
 
-    render() {
 
       const styles = {
         headerBar: {
-          backgroundColor: '#c1dceb'
+          backgroundColor: '#c1dceb',
+          borderBottom: '1px solid #328cc1',
+          boxShadow: '2px 2px 5px #000',
+          width: '100%'
         },
         smallLogo: {
           width: '50%',
@@ -20,10 +21,8 @@ class Header extends Component {
         return (
             <div style={styles.headerBar}>
                 <img style={styles.smallLogo} src={logo} alt='second chances'/>
-                <Nav />
             </div>
         );
     }
-}
 
 export default Header;

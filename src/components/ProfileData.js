@@ -1,48 +1,34 @@
 import React, {Component} from 'react';
-import envelope from '../images/envelope.png';
-
+import '../stylesheets/profile.css';
 
 class ProfileData extends Component {
 
-  // constructor() {
-  //   super();
-  //
-  // }
+    makeInitials(first, last) {
+        let firstArr = (first).toLowerCase().split('');
+        let firstInitial = firstArr[0];
+        let secondArr = (last).toLowerCase().split('');
+        let secondInitial = secondArr[0];
+        let initials = [`${firstInitial}${secondInitial}`];
 
-  render() {
-
-    const styles = {
-      envelope: {
-          width: '30px'
-      },
-      initialCircle: {
-          width: '45%',
-          float: 'left',
-          marginRight: '5px'
-      },
-      profileStory: {
-          textAlign: 'left',
-          padding: '5px'
-      }
+        return (
+            <p className='initials'>{initials}</p>
+        )
     }
 
-    return(
-      <div>
-        <h1 style={styles.profileHeading}>Profile Info</h1>
-        <div style={styles.headerBar}>
-          <img style={styles.envelope} src={envelope} alt='messages'/>
-        </div>
-        <div style={styles.initialCircle}>
-          <p>V</p>
-          <p>H</p>
-          </div>
-        <p>Vallyre Hyers</p>
-        <p>email: vallyre@vallyre.com</p>
-        <p style={styles.profileStory}>Affogato tacos unicorn direct trade. Cred bicycle rights shabby chic four loko godard narwhal. Af enamel pin vegan disrupt. Hot chicken iceland drinking vinegar PBR&B godard umami, seitan freegan tbh selfies paleo woke pug occupy tote bag.</p>
-      </div>
-    );
+    render() {
 
-  }
-}
-
-export default ProfileData;
+        return (
+            <div className='profile-container'>
+                <div className='initial-circle'>
+                        {this.makeInitials(this.props.currProfile.firstname, this.props.currProfile.lastname)}
+                </div>
+                <div className='profile-data'>
+                        <p className='profile-username'>{this.props.currProfile.firstname} {this.props.currProfile.lastname}</p>
+                        <p className='profile-email'>{this.props.currProfile.emailaddress}</p>
+                        <p className='profile-bio'>{this.props.currProfile.bio}</p>
+                </div>
+              </div>
+            );
+          }
+        }
+        export default ProfileData;

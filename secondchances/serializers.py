@@ -3,9 +3,16 @@ from .models import *
 
 
 class User_ProfileSerializer(serializers.ModelSerializer):
+    # user = serializers.PrimaryKeyRelatedField(many=False, read_only=False)
     class Meta:
         model = User_Profile
-        fields = ('user', 'id', 'user_id', 'bio', 'created', 'last_login')
+        fields = ('user', 'firstname', 'lastname', 'emailaddress', 'bio', 'created', 'last_login')
+
+    # def create(self, validated_data):
+    #     # return User_Profile.objects.create_user(**validated_data)
+    #     new = User_Profile(**validated_data)
+    #     new.save()
+    #     return new
 
 
 class UserSerializer(serializers.ModelSerializer):

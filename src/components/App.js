@@ -2,9 +2,13 @@ import React, {Component} from 'react';
 import '../stylesheets/reset.css';
 import '../stylesheets/App.css';
 import {browserHistory} from 'react-router';
-
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import axios from 'axios';
 
+
+injectTapEventPlugin();
 
 class App extends Component {
 
@@ -13,19 +17,21 @@ class App extends Component {
       this.setUser = this.setUser.bind(this);
       this.state = {
           username: '',
-          userid: null
+          userid: null,
+          baseurl: `https://${window.location.host}`
       };
   }
 
   setUser(user, url) {
-    console.log('in setUser');
+    console.log('in setUser: ', user, url);
     axios({
       method: 'post',
       url: url,
       auth: {
-        username: 'admin',
-        password: 'mypassword'
+        username: user.username,
+        password: user.password
       },
+
       data: user
     }).then((response) => {
       console.log(response);
@@ -58,13 +64,17 @@ class App extends Component {
           setUser: this.setUser,
           username: this.state.username,
           userid: this.state.userid,
-          email: this.state.email
+          email: this.state.email,
+          baseurl: this.state.baseurl
         });
       });
         return (
+          <MuiThemeProvider muiTheme={getMuiTheme()}>
               <main>
                 {childWithProp}
               </main>
+          </MuiThemeProvider>
+
         );
     }
 }

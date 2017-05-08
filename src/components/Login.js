@@ -11,7 +11,7 @@ class Login extends Component {
         },
         loginContainer: {
             textAlign: 'center',
-            margin: '20px auto',
+            margin: '10px auto',
             padding: '20px'
         },
         logoImg: {
@@ -21,8 +21,8 @@ class Login extends Component {
         tagline: {
           backgroundColor: '#083c5d',
           color: '#d9b310',
-          fontSize: '1.2rem',
-          padding: '20px',
+          fontSize: '1rem',
+          padding: '5px',
           fontStyle: 'italic'
         }
       }
@@ -31,10 +31,10 @@ class Login extends Component {
       <div>
         <header style={styles.headerContainer}>
           <img style={styles.logoImg} src={logo} alt='reEntry' />
-          <h1 style={styles.tagline}>Resources for the formerly incarcerated</h1>
+          <h1 style={styles.tagline}>Resources for formerly incarcerated people</h1>
         </header>
         <div style={styles.loginContainer}>
-          <LoginForm setUser={this.props.setUser} />
+          <LoginForm setUser={this.props.setUser} baseurl={this.props.baseurl} />
         </div>
 
       </div>

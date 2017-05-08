@@ -17,6 +17,7 @@ from rest_framework.permissions import AllowAny
 class User_ProfileViewSet(viewsets.ModelViewSet):
     queryset = User_Profile.objects.all()
     serializer_class = User_ProfileSerializer
+    permission_classes = [AllowAny]
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -25,13 +26,16 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        return self.queryset.filter(pk=self.request.user.id)
+        return self.queryset.all()
 
     def create(self, request):
         response = super(UserViewSet, self).create(request)
         # login user via session
         login(request, self.user)
-        return response
+        # user_profile = User_Profile(user=self.user.id)
+        user_profile = User_Profile(user=self.request.user)
+        user_profile.save()
+        return Response({'id': self.request.user.id})
 
     def perform_create(self, serializer):
         # calls save on the serializer

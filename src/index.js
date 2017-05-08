@@ -8,6 +8,7 @@ import Profile from './components/Profile';
 import Find from './components/Find';
 import Post from './components/Post';
 import Resources from './components/Resources';
+import NotFound from './components/NotFound';
 
 const Root = () => {
 
@@ -20,6 +21,7 @@ const Root = () => {
         <Route path='find' component={Find} />
         <Route path='post' component={Post} />
         <Route path='resources' component={Resources} />
+        <Route path='*' component={NotFound} />
       </Route>
 
     </Router>
