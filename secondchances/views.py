@@ -154,8 +154,8 @@ class SkillsViewSet(viewsets.ModelViewSet):
 
 
 class Provided_SkillBaseViewSet(viewsets.ModelViewSet):
-    queryset = Provided_Skills.objects.all()
-    serializer_class = Provided_SkillsSerializer
+    queryset = Provided_Skill.objects.all()
+    serializer_class = Provided_SkillSerializer
 
 
 class Provided_SkillViewSet(viewsets.ModelViewSet):
