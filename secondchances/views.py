@@ -7,7 +7,8 @@ from django.contrib.auth.models import User
 from .serializers import *
 from django.http import HttpResponse
 from django.views.generic import View  #
-from django.contrib.auth import authenticate, login, logout  #
+from django.contrib.auth import authenticate, logout  #
+from django.contrib.auth import login as authlogin
 from .forms import UserForm  #
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import list_route
@@ -71,7 +72,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
         if user:
             if user.is_active:
-                login(request, user)
+                authlogin(request, user)
                 return Response({'id': user.id})
         return Response({}, status=401)
 
