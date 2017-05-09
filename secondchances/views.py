@@ -402,10 +402,10 @@ def profile(request, user_id):
 
 def messages(request, user_id):
     user = User.objects.get(pk=user_id)
-    all_conversations = Inbox.get_conversations(user)  # Admin: 1
+    all_conversations = Inbox.get_conversations(user)  # List of users (with IDs)
     unread_messages = Inbox.get_unread_messages(user)
 
-    context = {'user': user.username,
+    context = {'user': user,
                'all_conversations': all_conversations,
                'num_of_convos': len(all_conversations),
                'num_of_unread': unread_messages

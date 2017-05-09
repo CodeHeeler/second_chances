@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>{{user}}</title>
+  <title>{{user.username}}</title>
   {% load staticfiles %}
   <link rel=stylesheet type="text/css" href="{% static 'css/messages.css' %}">
 </head>
@@ -13,8 +13,8 @@
     <h3>Converations</h3> {% endif %}
     <h4>No. of convos: {{num_of_convos}}</h4> {% for conversation in all_conversations%}
     <!-- <div class="contacts"><a href="conversation/{{conversation.id}}">{{conversation}}</a></div> -->
-    {{conversation.users}}
-    <div class=“contacts”><a href="https://arcane-hollows-70832.herokuapp.com/secondchances/conversation/{{conversation.user1}}/{{conversation.user2}}">{{conversation}}</a></div>
+    {{conversation}}
+    <div class=“contacts”><a href="https://arcane-hollows-70832.herokuapp.com/secondchances/conversation/{{user.id}}/{{conversation.id}}">{{conversation}}</a></div>
     {% endfor %}
   </div>
 
