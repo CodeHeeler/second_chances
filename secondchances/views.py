@@ -308,12 +308,12 @@ class MessageViewSet(viewsets.ModelViewSet):
     serializer_class = MessageSerializer
 
     def get_queryset(self):
-        user_id = self.request.user.id
+        user_id = self.kwargs['user_id']
         user_profile = User_Profile.objects.get(user=user_id)
         return self.queryset.filter(Q(sender=user_profile.user) | Q(recipient=user_profile.user))
 
     def list(self, request):
-        user_id = self.request.user.id
+        user_id = self.kwargs['user_id']
         user_profile = User_Profile.objects.get(user=user_id)
         queryset = Message.objects.all().filter(Q(sender=user_profile.user) | Q(recipient=user_profile.user))
         serializer = MessageSerializer(queryset, many=True)
@@ -328,14 +328,14 @@ class ConversationViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        user_id = self.request.user.id
+        user_id = self.kwargs['user_id']
         user_profile = User_Profile.objects.get(user=user_id)
         all_conversations = self.queryset.filter(Q(sender=user_profile.user) | Q(recipient=user_profile.user))
         contacts = []
         for conversation in all_conversations:
-            if conversation.sender.id != self.request.user.id:
+            if conversation.sender.id != user_id:
                 contacts.append(conversation.sender)
-            elif conversation.recipient != self.request.user:
+            elif conversation.recipient != user_profile.user:
                 contacts.append(conversation.recipient)
 
         # To abolish duplicates
@@ -400,29 +400,31 @@ def profile(request, user_id):
 #     return HttpResponse('login')
 #
 
-def messages(request):
-    all_conversations = Inbox.get_conversations(request.user)  # Admin: 1
-    single_converation = {person.username: Inbox.get_conversation(request.user, person) for person in all_conversations}
-    unread_messages = Inbox.get_unread_messages(request.user)
+def messages(request, user_id):
+    user = User.objects.get(pk=user_id)
+    all_conversations = Inbox.get_conversations(user)  # Admin: 1
+    single_converation = {person.username: Inbox.get_conversation(user, person) for person in all_conversations}
+    unread_messages = Inbox.get_unread_messages(user)
 
-    context = {'user':request.user.username,
-               'all_conversations':all_conversations,
+    context = {'user': user.username,
+               'all_conversations': all_conversations,
                'num_of_convos': len(all_conversations),
-               'single_converation': single_converation,
+               'single_conversation': single_conversation,
                'num_of_unread': unread_messages
                }
     return render(request, 'secondchances/messages.html', context)
 
 
-def conversation(request, user_id):
-    user = User.objects.get(pk=user_id)
-    full_conversation = Inbox.get_conversation(request.user, user)
+def conversation(request, sender_id, recipient_id):
+    sender = User.objects.get(pk=sender_id)
+    recipient = User.objects.get(pk=recipient_id)
+    full_conversation = Inbox.get_conversation(sender, recipient)
 
     for msg in full_conversation:
         Inbox.mark_as_read(msg)
 
-    context = {'user1':request.user,
-               'user2': user,
+    context = {'user1': sender,
+               'user2': recipient,
                'full_conversation': full_conversation,
     }
     return render(request, 'secondchances/conversation.html', context)
