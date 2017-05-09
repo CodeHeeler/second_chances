@@ -25,15 +25,15 @@ class User_ProfileViewSet(viewsets.ModelViewSet):
     serializer_class = User_ProfileSerializer
     permission_classes = [AllowAny]
 
-    def get_queryset(self):
-        user_id = self.kwargs['user_id']
-        # user_id = self.request.user.id
-        user_profile = User_Profile.objects.filter(user=user_id)
-        # user = User.objects.get(id=user_id)
-        # login(request, user)
-        # user_profile_list = []
-        # user_profile_list.append(user_profile)
-        return user_profile
+    # def get_queryset(self):
+    #     user_id = self.kwargs['user_id']
+    #     # user_id = self.request.user.id
+    #     user_profile = User_Profile.objects.get(user=user_id)
+    #     # user = User.objects.get(id=user_id)
+    #     # login(request, user)
+    #     # user_profile_list = []
+    #     # user_profile_list.append(user_profile)
+    #     return user_profile
 
     # def update(self, request, pk):
     #     profile = User_Profile.objects.get(user_id=20)
@@ -90,8 +90,8 @@ class JobMatchViewSet(viewsets.ModelViewSet):
         """
         try:
             jobs = []
-            # user_id = self.kwargs['user_id']
-            user_id = self.request.user.id
+            user_id = self.kwargs['user_id']
+            # user_id = self.request.user.id
             user_profile = User_Profile.objects.get(user=user_id)
             provided_skills = Provided_Skill.objects.filter(owner=user_profile)
             required_skills = Required_Skill.objects.all()
@@ -133,8 +133,6 @@ class JobViewSet(viewsets.ModelViewSet):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
 
-    def get_queryset(self):
-        return Job.objects.all()
 
 
 class OwnedJobViewSet(viewsets.ModelViewSet):
@@ -142,7 +140,7 @@ class OwnedJobViewSet(viewsets.ModelViewSet):
     serializer_class = JobSerializer
 
     def get_queryset(self):
-        user_id = self.request.user.id
+        user_id = self.kwargs['user_id']
         user_profile = User_Profile.objects.get(user=user_id)
         return Job.objects.filter(owner=user_profile)
 
@@ -152,6 +150,11 @@ class SkillsViewSet(viewsets.ModelViewSet):
     serializer_class = SkillsSerializer
 
 
+class Provided_SkillBaseViewSet(viewsets.ModelViewSet):
+    queryset = Provided_Skill.objects.all()
+    serializer_class = Provided_SkillSerializer
+
+
 class Provided_SkillViewSet(viewsets.ModelViewSet):
     queryset = Provided_Skill.objects.all()
     # queryset = Provided_Skill.objects.filter(owner=user_id)
@@ -159,8 +162,8 @@ class Provided_SkillViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         try:
-            # user_id = self.kwargs['user_id']
-            user_id = self.request.user.id
+            user_id = self.kwargs['user_id']
+            # user_id = self.request.user.id
             user_profile = User_Profile.objects.get(user=user_id)
             # provided_skill = user_profile.provided_skill_set.all()
             provided_skills = Provided_Skill.objects.filter(owner=user_profile)
@@ -171,6 +174,11 @@ class Provided_SkillViewSet(viewsets.ModelViewSet):
             return provided_skills  # .filter(owner=user_profile)
         except:
             return Provided_Skill.objects.all()
+
+
+class Required_SkillBaseViewSet(viewsets.ModelViewSet):
+    queryset = Required_Skill.objects.all()
+    serializer_class = Required_SkillSerializer
 
 
 class Required_SkillViewSet(viewsets.ModelViewSet):
@@ -193,6 +201,11 @@ class Required_SkillViewSet(viewsets.ModelViewSet):
 class LocationViewSet(viewsets.ModelViewSet):
     queryset = Location.objects.all()
     serializer_class = LocationSerializer
+
+
+class User_LocationBaseViewSet(viewsets.ModelViewSet):
+    queryset = User_Location.objects.all()
+    serializer_class = User_LocationSerializer
 
 
 class User_LocationViewSet(viewsets.ModelViewSet):
@@ -242,6 +255,11 @@ class ServiceViewSet(viewsets.ModelViewSet):
 class NeedsViewSet(viewsets.ModelViewSet):
     queryset = Needs.objects.all()
     serializer_class = NeedsSerializer
+
+
+class User_NeedsBaseViewSet(viewsets.ModelViewSet):
+    queryset = User_Needs.objects.all()
+    serializer_class = User_NeedsSerializer
 
 
 class User_NeedsViewSet(viewsets.ModelViewSet):
@@ -382,11 +400,32 @@ def profile(request, user_id):
 #     return HttpResponse('login')
 #
 
-def conversations(request):
-    print("*** {} ***".format(request.user))
-    all_conversations = Inbox.get_conversations(request.user)
-    context = {'all_conversations': all_conversations}
-    return render(request, 'secondchances/conversations.html', context)
+def messages(request):
+    all_conversations = Inbox.get_conversations(request.user)  # Admin: 1
+    single_converation = {person.username: Inbox.get_conversation(request.user, person) for person in all_conversations}
+    unread_messages = Inbox.get_unread_messages(request.user)
+
+    context = {'user':request.user.username,
+               'all_conversations':all_conversations,
+               'num_of_convos': len(all_conversations),
+               'single_converation': single_converation,
+               'num_of_unread': unread_messages
+               }
+    return render(request, 'secondchances/messages.html', context)
+
+
+def conversation(request, user_id):
+    user = User.objects.get(pk=user_id)
+    full_conversation = Inbox.get_conversation(request.user, user)
+
+    for msg in full_conversation:
+        Inbox.mark_as_read(msg)
+
+    context = {'user1':request.user,
+               'user2': user,
+               'full_conversation': full_conversation,
+    }
+    return render(request, 'secondchances/conversation.html', context)
 
 
 def posting_detail(request, posting_id):
@@ -395,9 +434,6 @@ def posting_detail(request, posting_id):
 
 def index(request):
     return render(request, 'secondchances/index.html')
-
-def messages(request):
-    return HttpResponse('inbox')
 
 
 def message_detail(request, conversation_id):

@@ -20,24 +20,25 @@ from rest_framework import routers
 from django.contrib.auth import views as auth_views
 
 router = routers.DefaultRouter()
-router.register(r'user_profile/(?P<user_id>[0-9]+)', views.User_ProfileViewSet)
+# router.register(r'user_profile/(?P<user_id>[0-9]+)', views.User_ProfileViewSet)
 router.register(r'user_profile', views.User_ProfileViewSet)
 router.register(r'user', views.UserViewSet)
 # router.register(r'job/(?P<user_id>[0-9]+)', views.JobViewSet)
 
+router.register(r'jobmatch/(?P<user_id>[0-9]+)', views.JobMatchViewSet, 'jobmatch')
 router.register(r'jobmatch', views.JobMatchViewSet, 'jobmatch')
 router.register(r'job', views.JobViewSet, 'job')
-router.register(r'ownedjob', views.OwnedJobViewSet, 'ownedjob')
+router.register(r'ownedjob/(?P<user_id>[0-9]+)', views.OwnedJobViewSet, 'ownedjob')
 router.register(r'location', views.LocationViewSet)
-router.register(r'userlocation/(?P<user_id>[0-9]+)', views.User_LocationViewSet)
-router.register(r'userlocation', views.User_LocationViewSet)
+router.register(r'userlocation/user/(?P<user_id>[0-9]+)', views.User_LocationViewSet)
+router.register(r'userlocation', views.User_LocationBaseViewSet)
 router.register(r'skills', views.SkillsViewSet)
-# router.register(r'providedskill/(?P<user_id>[0-9]+)', views.Provided_SkillViewSet)
-router.register(r'providedskill', views.Provided_SkillViewSet)
-router.register(r'requiredskill/(?P<job_id>[0-9]+)', views.Required_SkillViewSet)
-router.register(r'requiredskill', views.Required_SkillViewSet)
-router.register(r'userneeds/(?P<user_id>[0-9]+)', views.User_NeedsViewSet)
-router.register(r'userneeds', views.User_NeedsViewSet)
+router.register(r'providedskill/user/(?P<user_id>[0-9]+)', views.Provided_SkillViewSet)
+router.register(r'providedskill', views.Provided_SkillBaseViewSet)
+router.register(r'requiredskill/job/(?P<job_id>[0-9]+)', views.Required_SkillViewSet)
+router.register(r'requiredskill', views.Required_SkillBaseViewSet)
+router.register(r'userneeds/user/(?P<user_id>[0-9]+)', views.User_NeedsViewSet)
+router.register(r'userneeds', views.User_NeedsBaseViewSet)
 router.register(r'providedneeds/(?P<service_id>[0-9]+)', views.Provided_NeedsViewSet)
 router.register(r'providedneeds', views.Provided_NeedsViewSet)
 router.register(r'needs', views.NeedsViewSet)
@@ -60,8 +61,8 @@ urlpatterns = [
     # url(r'^secondchances/postings', views.postings),
     # url(r'^secondchances/postings/(?P<user_id>[0-9]+)/search', views.posting_search),
     # url(r'^secondchances/postings/(?P<posting_id>[0-9]+)', views.posting_detail),
-    url(r'^secondchances/messages', views.messages),
-    url(r'^secondchances/conversations', views.conversations),
+    url(r'^secondchances/messages', views.messages, name='messages'),
+    url(r'^conversation/(?P<user_id>\d+)/$', views.conversation, name='conversation'),
     # url(r'^secondchances/messages/(?P<conversation_id>[0-9]+)', views.message_detail),
     url(r'^secondchances/myskills/(?P<user_id>[0-9]+)', views.myskills),
     url(r'^admin/', admin.site.urls),
