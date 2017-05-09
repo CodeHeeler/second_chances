@@ -62,7 +62,7 @@ urlpatterns = [
     # url(r'^secondchances/postings/(?P<user_id>[0-9]+)/search', views.posting_search),
     # url(r'^secondchances/postings/(?P<posting_id>[0-9]+)', views.posting_detail),
     url(r'^secondchances/messages/(?P<user_id>[0-9]+)', views.messages, name='messages'),
-    url(r'^conversation/(?P<user_id>\d+)/$', views.conversation, name='conversation'),
+    url(r'^secondchances/conversation/(?P<sender_id>\d+)/(?P<recipient_id>\d+)$', views.conversation, name='conversation'),
     # url(r'^secondchances/messages/(?P<conversation_id>[0-9]+)', views.message_detail),
     url(r'^secondchances/myskills/(?P<user_id>[0-9]+)', views.myskills),
     url(r'^admin/', admin.site.urls),
