@@ -400,11 +400,32 @@ def profile(request, user_id):
 #     return HttpResponse('login')
 #
 
-def conversations(request):
-    print("*** {} ***".format(request.user))
-    all_conversations = Inbox.get_conversations(request.user)
-    context = {'all_conversations': all_conversations}
-    return render(request, 'secondchances/conversations.html', context)
+def messages(request):
+    all_conversations = Inbox.get_conversations(request.user)  # Admin: 1
+    single_converation = {person.username: Inbox.get_conversation(request.user, person) for person in all_conversations}
+    unread_messages = Inbox.get_unread_messages(request.user)
+
+    context = {'user':request.user.username,
+               'all_conversations':all_conversations,
+               'num_of_convos': len(all_conversations),
+               'single_converation': single_converation,
+               'num_of_unread': unread_messages
+               }
+    return render(request, 'secondchances/messages.html', context)
+
+
+def conversation(request, user_id):
+    user = User.objects.get(pk=user_id)
+    full_conversation = Inbox.get_conversation(request.user, user)
+
+    for msg in full_conversation:
+        Inbox.mark_as_read(msg)
+
+    context = {'user1':request.user,
+               'user2': user,
+               'full_conversation': full_conversation,
+    }
+    return render(request, 'secondchances/conversation.html', context)
 
 
 def posting_detail(request, posting_id):
@@ -413,9 +434,6 @@ def posting_detail(request, posting_id):
 
 def index(request):
     return render(request, 'secondchances/index.html')
-
-def messages(request):
-    return HttpResponse('inbox')
 
 
 def message_detail(request, conversation_id):

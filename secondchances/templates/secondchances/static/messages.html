@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{{user}}</title>
+    {% load staticfiles %}
+    <link rel=stylesheet type="text/css" href="{% static 'css/messages.css' %}">
+  </head>
+  <body>
+      <div>
+        {% if num_of_unread|length > 0 %}
+          <h3>Converations ({{num_of_unread|length}})</h3>
+        {% else %}
+          <h3>Converations</h3>
+        {% endif %}
+        <h4>No. of convos: {{num_of_convos}}</h4>
+        {% for conversation in all_conversations%}
+          <div class="contacts"><a href="conversation/{{conversation.id}}">{{conversation}}</a></div>
+        {% endfor %}
+      </div>
+
+  </body>
+</html>
