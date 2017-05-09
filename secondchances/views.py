@@ -403,13 +403,11 @@ def profile(request, user_id):
 def messages(request, user_id):
     user = User.objects.get(pk=user_id)
     all_conversations = Inbox.get_conversations(user)  # Admin: 1
-    # single_converation = {person.username: Inbox.get_conversation(user, person) for person in all_conversations}
     unread_messages = Inbox.get_unread_messages(user)
 
     context = {'user': user.username,
                'all_conversations': all_conversations,
                'num_of_convos': len(all_conversations),
-               'single_conversation': single_conversation,
                'num_of_unread': unread_messages
                }
     return render(request, 'secondchances/messages.html', context)
