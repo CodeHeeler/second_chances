@@ -403,7 +403,7 @@ def profile(request, user_id):
 def messages(request, user_id):
     user = User.objects.get(pk=user_id)
     all_conversations = Inbox.get_conversations(user)  # Admin: 1
-    single_converation = {person.username: Inbox.get_conversation(user, person) for person in all_conversations}
+    # single_converation = {person.username: Inbox.get_conversation(user, person) for person in all_conversations}
     unread_messages = Inbox.get_unread_messages(user)
 
     context = {'user': user.username,
