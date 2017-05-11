@@ -1,11 +1,11 @@
-var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
-let msgEndpoint = "/api/message/";
-var user1 = document.getElementsByClassName("from_user")[0].getAttribute("id");
-var user2 = document.getElementsByClassName("to_user")[0].getAttribute("id");
+const csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+const msgEndpoint = "/api/message/";
+const user1 = document.getElementsByClassName("from-user")[0].getAttribute("id");
+const user2 = document.getElementsByClassName("to-user")[0].getAttribute("id");
 
 function sendMessage() {
 
-    var content = $("textarea").val();
+    let content = $("textarea").val();
     if (content != "") {
         $.ajax({
             beforeSend: function(xhr) { xhr.setRequestHeader("X-CSRFToken", csrftoken); },
