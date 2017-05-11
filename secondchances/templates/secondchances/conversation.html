@@ -15,7 +15,7 @@
   <body>
     <header id='head'>
       <div class='messages-header'>
-        <img src="{% static 'media/reEntrylogo.png' %}" alt="reentry logo"/>
+        <img src="{% static 'media/reentrylogo.png' %}" alt="reentry logo"/>
       </div>
 
       <h1 class='messagectr-title'>Message Center</h1>
@@ -36,19 +36,17 @@
             <p class='right'>You wrote:</p>
             <p class='left'>{{user2}} wrote:</p>
           </header>
-
+          <div  id='from-user' value="{{user1.id}}">
+          <div  id='to-user' value="{{user2.id}}">
           {% for message in full_conversation %}
             {% if message.sender == user1 %}
-              <div class="individual-message from-user" id="{{user1.id}}">
-                <p class="text">{{message}}</p>
+                <p class="individual-message from-user">{{message}}</p>
               </div>
               {% comment %}
-
-              <div class="individual-message from-user" id="sent_time">{{message.sent_at}}</div>
+                <div class="individual-message from-user" id="sent_time">{{message.sent_at}}</div>
               {% endcomment %}
               {% else %}
-              <div class="individual-message to-user" id="{{user2.id}}">
-                <p class="text">
+                <p class="individual-message to-user">
                   {{message.sender}}:
                   {{message}}
                 </p>
